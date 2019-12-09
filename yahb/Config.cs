@@ -14,6 +14,8 @@ namespace yahb
         public bool copySubDirectories;
         public bool includeEmptyDirectories;
         public int maxLvel;
+        public string fnInputFiles;
+        public string fnInputDirectories;
         public List<String> inputFiles;
         public List<String> inputDirectories;
         public bool useVss;
@@ -34,6 +36,8 @@ namespace yahb
             this.copySubDirectories = false;
             this.includeEmptyDirectories = false;
             this.maxLvel = 2147483647; // max 32 int value, should be enough
+            this.fnInputFiles = "";
+            this.fnInputDirectories = "";
             this.inputFiles = new List<String>();
             this.inputDirectories = new List<String>();
             this.useVss = true;
@@ -49,7 +53,76 @@ namespace yahb
 
         public void checkConsistency()
         {
-            // check configuration for consistency/validity
+            // check if we have either an input directory, or supplied file names via /if or /id
+            // with valid directory or file lists
+            bool hasInput = false;
+            if(!string.IsNullOrEmpty(this.sourceDirectory))
+            {
+                if(System.IO.Directory.Exists(this.sourceDirectory))
+                {
+                    hasInput = true;
+                } else
+                {
+                    throw new ArgumentException("error: " + this.sourceDirectory + " is not a valid directory");
+                }
+            }
+
+            // check if the supplied list of input filenames (if any) is valid
+            if (!string.IsNullOrEmpty(this.fnInputFiles))
+            {
+                try
+                {
+                    string[] lines = System.IO.File.ReadAllLines(this.fnInputFiles);
+                    foreach (string line in lines)
+                    {
+                        if(!System.IO.File.Exists(line))
+                        {
+                            throw new ArgumentException("error: " + line + " defined in " +
+                                this.fnInputFiles + " does not exist");
+                        }
+                        this.inputFiles.Add(line);
+                    }
+                    hasInput = true;
+                }
+                catch (Exception e)
+                {
+                    throw new ArgumentException("Error: could not load input directories from: " + this.fnInputDirectories);
+                }
+            }
+
+            // check if the supplied list of input directories (if any) is valid
+            if (!string.IsNullOrEmpty(this.fnInputDirectories))
+            {
+                try
+                {
+                    string[] lines = System.IO.File.ReadAllLines(this.fnInputDirectories);
+                    foreach (string line in lines)
+                    {
+                        if(!System.IO.Directory.Exists(line))
+                        {
+                            throw new ArgumentException("error: " + line + " defined in " + 
+                                this.fnInputDirectories + " is not a valid directory");
+                        }
+                        this.inputDirectories.Add(line);
+                    }
+                    hasInput = true;
+                }
+                catch (Exception e)
+                {
+                    throw new ArgumentException("Error: could not load input directories from: " + this.fnInputDirectories);
+                }
+            }
+
+            if(!hasInput)
+            {
+                throw new ArgumentException("error: no valid input directory defined, and no valid " +
+                    "directory or file lists supplied via /id or /if");
+            }
+
+            if(string.IsNullOrEmpty(this.destinationDirectory) || !System.IO.File.Exists(this.destinationDirectory)  {
+                throw new ArgumentException("error: no valid output directory defined or directory" +
+                    "does not exist");
+            }
         }
 
         public override string ToString()

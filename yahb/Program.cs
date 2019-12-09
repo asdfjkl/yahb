@@ -124,13 +124,11 @@ namespace yahb {
                                     break;
 
                                 case "if":
-                                    // populate input files from textfile
-                                    //cfg.inputFiles = theArgument;
+                                    cfg.fnInputFiles = theArgument;
                                     break;
 
                                 case "id":
-                                    // populate input files from textfile
-                                    //cfg.inputDirectories = theArgument;
+                                    cfg.fnInputDirectories = theArgument;
                                     break;
 
                                 case "novss":
