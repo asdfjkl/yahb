@@ -119,9 +119,61 @@ namespace yahb
                     "directory or file lists supplied via /id or /if");
             }
 
-            if(string.IsNullOrEmpty(this.destinationDirectory) || !System.IO.File.Exists(this.destinationDirectory)  {
-                throw new ArgumentException("error: no valid output directory defined or directory" +
+            // check if we have a valid destination directory
+            if(string.IsNullOrEmpty(this.destinationDirectory) || !System.IO.Directory.Exists(this.destinationDirectory))  {
+                throw new ArgumentException("error: no valid output directory defined or directory " +
                     "does not exist");
+            }
+
+            // check if we have a valid log-file path
+            if(!string.IsNullOrEmpty(this.fnLogFile))
+            {
+                // try to write or append log file
+                // write time-stamp in header
+                string now = DateTime.Now.ToString("yyyy'_'MM'_'dd_HH'_'mm'_'ss'Z'");
+                if(this.overwriteLogFile)
+                {
+                    try
+                    {
+                        using (System.IO.StreamWriter file = new System.IO.StreamWriter(this.fnLogFile))
+                        {
+                            file.WriteLine("###############################");
+                            file.WriteLine("# Copying started@ " + now);
+                            file.WriteLine("###############################");
+                        }
+
+                    }
+                    catch (System.IO.IOException)
+                    {
+                        throw new ArgumentException("error: IO exception writing to log file " + this.fnLogFile);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new ArgumentException("error: general exception writing to log file " + this.fnLogFile);
+                    }
+
+                } else
+                {
+                    try
+                    {
+                        using (System.IO.StreamWriter file = new System.IO.StreamWriter(this.fnLogFile, append: true))
+                        {
+                            file.WriteLine("###############################");
+                            file.WriteLine("# Copying started@ " + now);
+                            file.WriteLine("###############################");
+                        }
+
+                    }
+                    catch (System.IO.IOException)
+                    {
+                        throw new ArgumentException("error: IO exception appending to log file " + this.fnLogFile);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new ArgumentException("error: general exception appending to log file " + this.fnLogFile);
+                    }
+
+                }           
             }
         }
 

@@ -27,7 +27,7 @@ namespace yahb {
                 object[,] mySwitches = new object[2, 14] {
                  {"s", "e", "lev", "if", 
                     "id", "novss", "xf", "xd", 
-                      "l", "v", "log", "log+", 
+                      "list", "v", "log", "+log", 
                         "tee", "?"},
                  {ArgType.SimpleSwitch, ArgType.SimpleSwitch, ArgType.Compound, ArgType.Compound,
                    ArgType.Compound, ArgType.SimpleSwitch, ArgType.Compound, ArgType.Compound,
@@ -36,7 +36,7 @@ namespace yahb {
 
                 for (int counter = 0; counter < args.Length; counter++)
                 {
-                    if(counter == 0)
+                    if (counter == 0)
                     {
                         if (!args[counter].StartsWith("/"))
                         {
@@ -69,124 +69,127 @@ namespace yahb {
                         }
                     }
 
-                    args[counter] = args[counter].TrimStart(new char[1] { '/' });
-
-                    // Search for the correct ArgType and parse argument according to
-                    // this ArgType.
-                    for (int index = 0; index <= mySwitches.GetUpperBound(1); index++)
+                    if (args[counter].StartsWith("/"))
                     {
-                        string theSwitch = "";
-                        string theArgument = "";
-                        string[] theArguments = new string[0];
+                        args[counter] = args[counter].TrimStart(new char[1] { '/' });
 
-                        if (args[counter].StartsWith((string)mySwitches[0, index]))
+                        // Search for the correct ArgType and parse argument according to
+                        // this ArgType.
+                        for (int index = 0; index <= mySwitches.GetUpperBound(1); index++)
                         {
-                            // Parse each argument into switch:arg1;arg2…
-                            switch ((ArgType)mySwitches[1, index])
+                            string theSwitch = "";
+                            string theArgument = "";
+                            string[] theArguments = new string[0];
+
+                            if (args[counter].StartsWith((string)mySwitches[0, index]))
                             {
-                                case ArgType.SimpleSwitch:
-                                    theSwitch = parse.ParseSwitch(args[counter]);
-                                    break;
+                                // Parse each argument into switch:arg1;arg2…
+                                switch ((ArgType)mySwitches[1, index])
+                                {
+                                    case ArgType.SimpleSwitch:
+                                        theSwitch = parse.ParseSwitch(args[counter]);
+                                        break;
 
-                                case ArgType.Compound:
-                                    parse.ParseSwitchColonArg(args[counter], out theSwitch,
-                                                              out theArgument);
-                                    break;
+                                    case ArgType.Compound:
+                                        parse.ParseSwitchColonArg(args[counter], out theSwitch,
+                                                                  out theArgument);
+                                        break;
 
-                                case ArgType.Complex:
-                                    parse.ParseSwitchColonArgs(args[counter], out theSwitch,
-                                                               out theArguments);
-                                    break;
+                                    case ArgType.Complex:
+                                        parse.ParseSwitchColonArgs(args[counter], out theSwitch,
+                                                                   out theArguments);
+                                        break;
 
-                                default:
-                                    throw (new ArgumentException(
-                                      "Cmd-Line parameter error: ArgType enumeration " +
-                                      mySwitches[1, index].ToString() +
-                                      " not recognized."));
-                            }
+                                    default:
+                                        throw (new ArgumentException(
+                                          "Cmd-Line parameter error: ArgType enumeration " +
+                                          mySwitches[1, index].ToString() +
+                                          " not recognized."));
+                                }
 
-                            // Implement functionality to handle each parsed
-                            // command-line parameter.
-                            switch ((string)mySwitches[0, index])
-                            {
-                                case "s":
-                                    cfg.copySubDirectories = true;
-                                    cfg.includeEmptyDirectories = false;
-                                    break;
+                                // Implement functionality to handle each parsed
+                                // command-line parameter.
+                                switch ((string)mySwitches[0, index])
+                                {
+                                    case "s":
+                                        cfg.copySubDirectories = true;
+                                        cfg.includeEmptyDirectories = false;
+                                        break;
 
-                                case "e":
-                                    cfg.copySubDirectories = true;
-                                    cfg.includeEmptyDirectories = true;
-                                    break;
+                                    case "e":
+                                        cfg.copySubDirectories = true;
+                                        cfg.includeEmptyDirectories = true;
+                                        break;
 
-                                case "lev":
-                                    cfg.maxLvel = System.Int32.Parse(theArgument);
-                                    break;
+                                    case "lev":
+                                        cfg.maxLvel = System.Int32.Parse(theArgument);
+                                        break;
 
-                                case "if":
-                                    cfg.fnInputFiles = theArgument;
-                                    break;
+                                    case "if":
+                                        cfg.fnInputFiles = theArgument;
+                                        break;
 
-                                case "id":
-                                    cfg.fnInputDirectories = theArgument;
-                                    break;
+                                    case "id":
+                                        cfg.fnInputDirectories = theArgument;
+                                        break;
 
-                                case "novss":
-                                    cfg.useVss = false;
-                                    break;
+                                    case "novss":
+                                        cfg.useVss = false;
+                                        break;
 
-                                case "xf":
-                                    foreach (string excludePattern in theArguments) {
-                                        cfg.filePatternsToIgnore.Add(excludePattern);
-                                    }
-                                    break;
+                                    case "xf":
+                                        foreach (string excludePattern in theArguments)
+                                        {
+                                            cfg.filePatternsToIgnore.Add(excludePattern);
+                                        }
+                                        break;
 
-                                case "xd":
-                                    foreach (string excludeDir in theArguments)
-                                    {
-                                        cfg.directoriesToIgnore.Add(excludeDir);
-                                    }
-                                    break;
+                                    case "xd":
+                                        foreach (string excludeDir in theArguments)
+                                        {
+                                            cfg.directoriesToIgnore.Add(excludeDir);
+                                        }
+                                        break;
 
-                                case "l":
-                                    cfg.dryRun = true;
-                                    break;
+                                    case "list":
+                                        cfg.dryRun = true;
+                                        break;
 
-                                case "v":
-                                    cfg.verboseMode = true;
-                                    break;
+                                    case "v":
+                                        cfg.verboseMode = true;
+                                        break;
 
-                                case "log":
-                                    cfg.fnLogFile = theArgument;
-                                    cfg.overwriteLogFile = true;
-                                    break;
+                                    case "log":
+                                        cfg.fnLogFile = theArgument;
+                                        cfg.overwriteLogFile = true;
+                                        break;
 
-                                case "log+":
-                                    cfg.fnLogFile = theArgument;
-                                    cfg.overwriteLogFile = false;
-                                    break;
+                                    case "log+":
+                                        cfg.fnLogFile = theArgument;
+                                        cfg.overwriteLogFile = false;
+                                        break;
 
-                                case "tee":
-                                    cfg.writeToLogAndConsole = true;
-                                    break;
+                                    case "tee":
+                                        cfg.writeToLogAndConsole = true;
+                                        break;
 
-                                case "?":
-                                    cfg.showHelp = true;
-                                    break;
+                                    case "?":
+                                        cfg.showHelp = true;
+                                        break;
 
-                                default:
-                                    throw (new ArgumentException(
-                                       "Cmd-Line parameter error: Switch " +
-                                       mySwitches[0, index].ToString() +
-                                       " not recognized."));
+                                    default:
+                                        throw (new ArgumentException(
+                                           "Cmd-Line parameter error: Switch " +
+                                           mySwitches[0, index].ToString() +
+                                           " not recognized."));
+                                }
                             }
                         }
                     }
-
-                    // check sanity of parsed configuration
-                    // on error, throw ArgumentException
-
                 }
+                // check sanity of parsed configuration
+                // throws ArgumentException on inconsistencies
+                cfg.checkConsistency();
             }
             catch (ArgumentException ae)
             {
