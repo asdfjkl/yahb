@@ -25,14 +25,14 @@ namespace yahb {
                 // Create an array of all possible command-line parameters
                 // and how to parse them.
                 object[,] mySwitches = new object[2, 14] {
-                 {"s", "e", "lev", "if", 
+                 {"s", "lev", "if", 
                     "id", "novss", "xf", "xd", 
                       "list", "v", "log", "+log", 
-                        "tee", "?"},
-                 {ArgType.SimpleSwitch, ArgType.SimpleSwitch, ArgType.Compound, ArgType.Compound,
+                        "tee", "?", "files"},
+                 {ArgType.SimpleSwitch, ArgType.Compound, ArgType.Compound,
                    ArgType.Compound, ArgType.SimpleSwitch, ArgType.Compound, ArgType.Compound,
                      ArgType.SimpleSwitch, ArgType.SimpleSwitch, ArgType.Compound, ArgType.Compound,
-                       ArgType.SimpleSwitch, ArgType.SimpleSwitch}};
+                       ArgType.SimpleSwitch, ArgType.SimpleSwitch, ArgType.Complex}};
 
                 for (int counter = 0; counter < args.Length; counter++)
                 {
@@ -113,20 +113,10 @@ namespace yahb {
                                 {
                                     case "s":
                                         cfg.copySubDirectories = true;
-                                        cfg.includeEmptyDirectories = false;
-                                        break;
-
-                                    case "e":
-                                        cfg.copySubDirectories = true;
-                                        cfg.includeEmptyDirectories = true;
                                         break;
 
                                     case "lev":
                                         cfg.maxLvel = System.Int32.Parse(theArgument);
-                                        break;
-
-                                    case "if":
-                                        cfg.fnInputFiles = theArgument;
                                         break;
 
                                     case "id":
@@ -151,6 +141,13 @@ namespace yahb {
                                         }
                                         break;
 
+                                    case "files":
+                                        foreach (string fileEnding in theArguments)
+                                        {
+                                            cfg.fileEndings.Add(fileEnding);
+                                        }
+                                        break;
+
                                     case "list":
                                         cfg.dryRun = true;
                                         break;
@@ -164,7 +161,7 @@ namespace yahb {
                                         cfg.overwriteLogFile = true;
                                         break;
 
-                                    case "log+":
+                                    case "+log":
                                         cfg.fnLogFile = theArgument;
                                         cfg.overwriteLogFile = false;
                                         break;
@@ -203,6 +200,10 @@ namespace yahb {
 
             // start copy operations
             Console.WriteLine(cfg.ToString());
+            CopyModule cm = new CopyModule(cfg);
+            List<String> dirs = cm.createDirectoryList();
+            List<String> files = cm.createFileList(dirs);
+
         }
     }
 }

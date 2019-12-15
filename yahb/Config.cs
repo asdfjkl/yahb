@@ -10,13 +10,9 @@ namespace yahb
     {
         public string sourceDirectory;
         public string destinationDirectory;
-        public List<String> fileToCopyTypes; // empty array means copy all
         public bool copySubDirectories;
-        public bool includeEmptyDirectories;
         public int maxLvel;
-        public string fnInputFiles;
         public string fnInputDirectories;
-        public List<String> inputFiles;
         public List<String> inputDirectories;
         public bool useVss;
         public List<String> filePatternsToIgnore;
@@ -27,18 +23,15 @@ namespace yahb
         public bool overwriteLogFile;
         public bool writeToLogAndConsole;
         public bool showHelp;
+        public List<String> fileEndings;
 
         public Config()
         {
             this.sourceDirectory = "";
             this.destinationDirectory = "";
-            this.fileToCopyTypes = new List<String>();
             this.copySubDirectories = false;
-            this.includeEmptyDirectories = false;
             this.maxLvel = 2147483647; // max 32 int value, should be enough
-            this.fnInputFiles = "";
             this.fnInputDirectories = "";
-            this.inputFiles = new List<String>();
             this.inputDirectories = new List<String>();
             this.useVss = true;
             this.filePatternsToIgnore = new List<String>();
@@ -49,6 +42,11 @@ namespace yahb
             this.overwriteLogFile = true;
             this.writeToLogAndConsole = false;
             this.showHelp = false;
+            this.fileEndings = new List<String>();
+
+
+
+
         }
 
         public void checkConsistency()
@@ -67,6 +65,7 @@ namespace yahb
                 }
             }
 
+            /*
             // check if the supplied list of input filenames (if any) is valid
             if (!string.IsNullOrEmpty(this.fnInputFiles))
             {
@@ -88,7 +87,7 @@ namespace yahb
                 {
                     throw new ArgumentException("Error: could not load input directories from: " + this.fnInputDirectories);
                 }
-            }
+            } */
 
             // check if the supplied list of input directories (if any) is valid
             if (!string.IsNullOrEmpty(this.fnInputDirectories))
@@ -137,9 +136,9 @@ namespace yahb
                     {
                         using (System.IO.StreamWriter file = new System.IO.StreamWriter(this.fnLogFile))
                         {
-                            file.WriteLine("###############################");
+                            file.WriteLine("########################################");
                             file.WriteLine("# Copying started@ " + now);
-                            file.WriteLine("###############################");
+                            file.WriteLine("########################################");
                         }
 
                     }
@@ -158,9 +157,9 @@ namespace yahb
                     {
                         using (System.IO.StreamWriter file = new System.IO.StreamWriter(this.fnLogFile, append: true))
                         {
-                            file.WriteLine("###############################");
+                            file.WriteLine("########################################");
                             file.WriteLine("# Copying started@ " + now);
-                            file.WriteLine("###############################");
+                            file.WriteLine("########################################");
                         }
 
                     }
@@ -182,11 +181,9 @@ namespace yahb
             string currentCfg = "";
             currentCfg += "source dir...........: " + this.sourceDirectory + "\n";
             currentCfg += "destination dir......: " + this.destinationDirectory + "\n";
-            currentCfg += "copy file types......: " + String.Join(", ", this.fileToCopyTypes) + "\n";
+            currentCfg += "file endings.........: " + String.Join(", ", this.fileEndings) + "\n";
             currentCfg += "copy sub dirs........: " + this.copySubDirectories + "\n";
-            currentCfg += "include empty dirs...: " + this.includeEmptyDirectories + "\n";
             currentCfg += "max dir level........: " + this.maxLvel + "\n";
-            currentCfg += "input file list......: " + String.Join(", ", this.inputFiles) + "\n";
             currentCfg += "input dirs list......: " + String.Join(", ", this.inputDirectories) + "\n";
             currentCfg += "use vss..............: " + this.useVss + "\n";
             currentCfg += "ignore patterns......: " + String.Join(", ", this.filePatternsToIgnore) + "\n";
