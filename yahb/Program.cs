@@ -202,7 +202,8 @@ namespace yahb {
             Console.WriteLine(cfg.ToString());
             CopyModule cm = new CopyModule(cfg);
             List<String> dirs = cm.createDirectoryList();
-            List<String> files = cm.createFileList(dirs);
+            cm.createFileList(dirs);
+            cm.doCopy();
 
         }
     }
