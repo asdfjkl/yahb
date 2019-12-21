@@ -24,6 +24,13 @@ namespace yahb
         public bool writeToLogAndConsole;
         public bool showHelp;
         public List<String> fileEndings;
+        public bool copyAll;
+        public bool logToFile;
+
+        public List<String> commonDirsToIgnore;
+        public List<String> commonFilePatternsToIgnore;
+
+        private int logsCached;
 
         public Config()
         {
@@ -43,10 +50,22 @@ namespace yahb
             this.writeToLogAndConsole = false;
             this.showHelp = false;
             this.fileEndings = new List<String>();
+            this.copyAll = false;
+            this.logToFile = false;
+            this.commonDirsToIgnore = new List<String>();
+            commonDirsToIgnore.Add("System Volume Information");
+            commonDirsToIgnore.Add("AppData\\Local\\Temp");
+            commonDirsToIgnore.Add("AppData\\Local\\Microsoft\\Windows\\INetCache");
+            commonDirsToIgnore.Add("C:\\Windows");
+            commonDirsToIgnore.Add("$Recycle.Bin");
+            this.commonFilePatternsToIgnore = new List<String>();
+            commonFilePatternsToIgnore.Add("hiberfil.sys");
+            commonFilePatternsToIgnore.Add("pagefile.sys");
+            commonFilePatternsToIgnore.Add("swapfile.sys");
+            commonFilePatternsToIgnore.Add("*.~");
+            commonFilePatternsToIgnore.Add("*.tmp");
 
-
-
-
+            this.logsCached = 0;
         }
 
         public void checkConsistency()
@@ -140,6 +159,7 @@ namespace yahb
                             file.WriteLine("# Copying started@ " + now);
                             file.WriteLine("########################################");
                         }
+                        this.logToFile = true;
 
                     }
                     catch (System.IO.IOException)
@@ -161,7 +181,7 @@ namespace yahb
                             file.WriteLine("# Copying started@ " + now);
                             file.WriteLine("########################################");
                         }
-
+                        this.logToFile = true;
                     }
                     catch (System.IO.IOException)
                     {
@@ -174,6 +194,33 @@ namespace yahb
 
                 }           
             }
+        }
+
+
+        public void addToLog(string message)
+        {
+            if(this.logToFile)
+            {
+                if(this.writeToLogAndConsole)
+                {
+                    Console.WriteLine(message);
+                }
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(this.fnLogFile, append: true))
+                {
+                    file.WriteLine(message);
+                }
+            } else
+            {
+                Console.WriteLine(message);
+            }
+
+            this.logsCached += 1;
+            if(this.logsCached > 10)
+            {
+                Console.Out.Flush();
+                this.logsCached = 0;
+            }
+
         }
 
         public override string ToString()

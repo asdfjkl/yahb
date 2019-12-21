@@ -24,12 +24,12 @@ namespace yahb {
             {
                 // Create an array of all possible command-line parameters
                 // and how to parse them.
-                object[,] mySwitches = new object[2, 14] {
-                 {"s", "lev", "if", 
+                object[,] mySwitches = new object[2, 15] {
+                 {"s", "lev", "if", "copyall" ,
                     "id", "novss", "xf", "xd", 
                       "list", "v", "log", "+log", 
                         "tee", "?", "files"},
-                 {ArgType.SimpleSwitch, ArgType.Compound, ArgType.Compound,
+                 {ArgType.SimpleSwitch, ArgType.Compound, ArgType.Compound, ArgType.SimpleSwitch,
                    ArgType.Compound, ArgType.SimpleSwitch, ArgType.Compound, ArgType.Compound,
                      ArgType.SimpleSwitch, ArgType.SimpleSwitch, ArgType.Compound, ArgType.Compound,
                        ArgType.SimpleSwitch, ArgType.SimpleSwitch, ArgType.Complex}};
@@ -170,6 +170,10 @@ namespace yahb {
                                         cfg.writeToLogAndConsole = true;
                                         break;
 
+                                    case "copyall":
+                                        cfg.copyAll = true;
+                                        break;
+
                                     case "?":
                                         cfg.showHelp = true;
                                         break;
@@ -192,14 +196,15 @@ namespace yahb {
             {
                 parse.DisplayErrorMsg(ae.Message);
                 return;
-            }
-            catch (Exception e)
-            {
-                // Handle other exceptions here…
-            }
+            }            
 
             // start copy operations
-            Console.WriteLine(cfg.ToString());
+            if(cfg.dryRun)
+            {
+                cfg.addToLog("SIMULATION RUN: LIST FILES ONLY, DON'T COPY ANYTHING");
+            }
+
+            //Console.WriteLine(cfg.ToString());
             CopyModule cm = new CopyModule(cfg);
             List<String> dirs = cm.createDirectoryList();
             cm.createFileList(dirs);
