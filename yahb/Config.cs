@@ -40,7 +40,7 @@ namespace yahb
             this.maxLvel = 2147483647; // max 32 int value, should be enough
             this.fnInputDirectories = "";
             this.inputDirectories = new List<String>();
-            this.useVss = true;
+            this.useVss = false;
             this.filePatternsToIgnore = new List<String>();
             this.directoriesToIgnore = new List<String>();
             this.dryRun = false;

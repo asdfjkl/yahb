@@ -19,6 +19,9 @@ namespace yahb
 
     class CopyModule
     {
+        const int ERROR_SHARING_VIOLATION = 32;
+        const int ERROR_LOCK_VIOLATION = 33;
+
         private Config cfg;
         private string now;
         List<String> sourceFileList;
@@ -396,6 +399,28 @@ namespace yahb
                 catch (IOException copyError)
                 {
                     cfg.addToLog(x.sourceFile + ": " + copyError.Message);
+                    int errorCode = Marshal.GetHRForException(copyError) & ((1 << 16) - 1);
+                    if(errorCode == ERROR_SHARING_VIOLATION || errorCode == ERROR_LOCK_VIOLATION) {
+                        cfg.addToLog(x.sourceFile + ": sharing or lock violation");
+                    }
+                    // Initialize the shadow copy subsystem.
+                    using (VssBackup vss = new VssBackup())
+                    {
+                        vss.Setup(Path.GetPathRoot(x.sourceFile));
+                        string snap_path = vss.GetSnapshotPath(x.sourceFile);
+
+                        cfg.addToLog(snap_path);
+
+                        //string destpath = "F:\\201912232238\\c__\\Users\\user\\MyFiles\\workspace\\filelock\\foo.txt";
+                        string a = "F:\\" + x.destFile.timestamp + "\\" + x.destFile.fileName;
+                        cfg.addToLog(a);
+                        
+                        Alphaleonis.Win32.Filesystem.File.Copy(snap_path, a);
+
+                        //File.Copy(snap_path, x.destFile.driveTimeFilename);
+                        cfg.addToLog(x.sourceFile + ": copied snapshot via VSS");
+
+                    }
                 }
             }
             this.cfg.addToLog("-----------------------------------------------------------------");

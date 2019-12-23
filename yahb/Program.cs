@@ -123,8 +123,8 @@ namespace yahb {
                                         cfg.fnInputDirectories = theArgument;
                                         break;
 
-                                    case "novss":
-                                        cfg.useVss = false;
+                                    case "sc":
+                                        cfg.useVss = true;
                                         break;
 
                                     case "xf":
