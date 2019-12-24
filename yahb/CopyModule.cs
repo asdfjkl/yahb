@@ -83,17 +83,26 @@ namespace yahb
                     }
                     catch (UnauthorizedAccessException e)
                     {
-                        cfg.addToLog(currentDir + ":" + e.Message);
+                        if (cfg.verboseMode)
+                        {
+                            cfg.addToLog(currentDir + ":" + e.Message);
+                        }
                         continue;
                     }
                     catch (DirectoryNotFoundException e)
                     {
-                        cfg.addToLog(currentDir + ":" + e.Message);
+                        if (cfg.verboseMode)
+                        {
+                            cfg.addToLog(currentDir + ":" + e.Message);
+                        }
                         continue;
                     }
                     catch (PathTooLongException e)
                     {
-                        cfg.addToLog(currentDir + ":" + e.Message);
+                        if (cfg.verboseMode)
+                        {
+                            cfg.addToLog(currentDir + ":" + e.Message);
+                        }
                         continue;
                     }
                     foreach (string str in subdirs)
@@ -149,7 +158,10 @@ namespace yahb
                 }
                 catch (System.IO.PathTooLongException e)
                 {
-                    this.cfg.addToLog(dir_i + ": " + e.Message);
+                    if (cfg.verboseMode)
+                    {
+                        this.cfg.addToLog(dir_i + ": " + e.Message);
+                    }
                     continue;
                 }
 
@@ -206,7 +218,10 @@ namespace yahb
                             this.sourceFileList.Add(file_i);
                         } catch (System.IO.PathTooLongException e)
                         {
-                            this.cfg.addToLog(file_i + ": "+e.Message);
+                            if (cfg.verboseMode)
+                            {
+                                this.cfg.addToLog(file_i + ": " + e.Message);
+                            }
                         }
                     } else
                     {
@@ -266,23 +281,34 @@ namespace yahb
             }
             catch (UnauthorizedAccessException e)
             {
-                this.cfg.addToLog(destDirectory + ": " + e.Message);
+                if (cfg.verboseMode)
+                {
+                    this.cfg.addToLog(destDirectory + ": " + e.Message);
+                }
                 throw new ArgumentException();
             }
             catch (DirectoryNotFoundException e)
             {
-                this.cfg.addToLog(destDirectory + ": " + e.Message);
+                if (cfg.verboseMode)
+                {
+                    this.cfg.addToLog(destDirectory + ": " + e.Message);
+                }
                 throw new ArgumentException();
             }
             catch (PathTooLongException e)
             {
-                this.cfg.addToLog(destDirectory + ": " + e.Message);
+                if (cfg.verboseMode)
+                {
+                    this.cfg.addToLog(destDirectory + ": " + e.Message);
+                }
                 throw new ArgumentException();
             }
         }
 
         public void doCopy()
         {
+            List<Tuple<String, DestinationFile>> tryWithVSS = new List<Tuple<String, DestinationFile>>();
+
             this.cfg.addToLog("-----------------------------------------------------------------");
 
             bool foundLastDir = false;
@@ -311,32 +337,50 @@ namespace yahb
                 }
                 catch (DirectoryNotFoundException ex)
                 {
-                    this.cfg.addToLog(destDir + ": " + ex.Message);
+                    if (cfg.verboseMode)
+                    {
+                        this.cfg.addToLog(destDir + ": " + ex.Message);
+                    }
                     continue;
                 }
                 catch (NotSupportedException ex)
                 {
-                    this.cfg.addToLog(destDir + ": " + ex.Message);
+                    if (cfg.verboseMode)
+                    {
+                        this.cfg.addToLog(destDir + ": " + ex.Message);
+                    }
                     continue;
                 }
                 catch (PathTooLongException ex)
                 {
-                    this.cfg.addToLog(destDir + ": " + ex.Message);
+                    if (cfg.verboseMode)
+                    {
+                        this.cfg.addToLog(destDir + ": " + ex.Message);
+                    }
                     continue;
                 }
                 catch (UnauthorizedAccessException ex)
                 {
-                    this.cfg.addToLog(destDir + ": " + ex.Message);
+                    if (cfg.verboseMode)
+                    {
+                        this.cfg.addToLog(destDir + ": " + ex.Message);
+                    }
                     continue;
                 }
                 catch (ArgumentException ex)
                 {
-                    this.cfg.addToLog(destDir + ": " + ex.Message);
+                    if (cfg.verboseMode)
+                    {
+                        this.cfg.addToLog(destDir + ": " + ex.Message);
+                    }
                     continue;
                 }
                 catch (IOException ex)
                 {
-                    this.cfg.addToLog(destDir + ": " + ex.Message);
+                    if (cfg.verboseMode)
+                    {
+                        this.cfg.addToLog(destDir + ": " + ex.Message);
+                    }
                     continue;
                 }
             }
@@ -398,36 +442,82 @@ namespace yahb
                 }
                 catch (IOException copyError)
                 {
-                    cfg.addToLog(x.sourceFile + ": " + copyError.Message);
-                    int errorCode = Marshal.GetHRForException(copyError) & ((1 << 16) - 1);
-                    if(errorCode == ERROR_SHARING_VIOLATION || errorCode == ERROR_LOCK_VIOLATION) {
-                        cfg.addToLog(x.sourceFile + ": sharing or lock violation");
-                    }
-                    // Initialize the shadow copy subsystem.
-                    using (VssBackup vss = new VssBackup())
+                    if(cfg.useVss)
                     {
-                        vss.Setup(Path.GetPathRoot(x.sourceFile));
-                        string snap_path = vss.GetSnapshotPath(x.sourceFile);
+                        int errorCode = Marshal.GetHRForException(copyError) & ((1 << 16) - 1);
+                        if (errorCode == ERROR_SHARING_VIOLATION || errorCode == ERROR_LOCK_VIOLATION)
+                        {
+                            if (cfg.verboseMode)
+                            {
+                                cfg.addToLog(x.sourceFile + ": sharing or lock violation, trying later w/ shadow copy");
+                            }
+                            Tuple<String, DestinationFile> tpl = new Tuple<String, DestinationFile>(x.sourceFile, x.destFile);
+                            tryWithVSS.Add(tpl);
+                        } else
+                        {
+                            if (cfg.verboseMode)
+                            {
+                                cfg.addToLog(x.sourceFile + ": " + copyError.Message);
+                            }
+                        }
 
-                        cfg.addToLog(snap_path);
-
-                        //string destpath = "F:\\201912232238\\c__\\Users\\user\\MyFiles\\workspace\\filelock\\foo.txt";
-                        string a = "F:\\" + x.destFile.timestamp + "\\" + x.destFile.fileName;
-                        cfg.addToLog(a);
-                        
-                        Alphaleonis.Win32.Filesystem.File.Copy(snap_path, a);
-
-                        //File.Copy(snap_path, x.destFile.driveTimeFilename);
-                        cfg.addToLog(x.sourceFile + ": copied snapshot via VSS");
-
+                    } else
+                    {
+                        if (cfg.verboseMode)
+                        {
+                            cfg.addToLog(x.sourceFile + ": " + copyError.Message);
+                        }
                     }
                 }
             }
+
+            if (this.cfg.useVss && tryWithVSS.Count > 0)
+            {
+                // todo catch all typical exceptions
+                using (VssBackup vss = new VssBackup())
+                {
+                    vss.Setup(Path.GetPathRoot(tryWithVSS[0].Item1));
+                    
+                    foreach(Tuple<String, DestinationFile> x in tryWithVSS)
+                    {
+                        string snap_path = vss.GetSnapshotPath(x.Item1);
+                        Alphaleonis.Win32.Filesystem.File.Copy(snap_path, x.Item2.driveTimeFilename);
+                        cfg.addToLog(x.Item1 + ": copied snapshot via VSS");
+                    }
+                }
+            }
+
+
+            /*
+
+// Initialize the shadow copy subsystem.
+using (VssBackup vss = new VssBackup())
+{
+vss.Setup(Path.GetPathRoot(x.sourceFile));
+string snap_path = vss.GetSnapshotPath(x.sourceFile);
+
+cfg.addToLog(snap_path);
+
+//string destpath = "F:\\201912232238\\c__\\Users\\user\\MyFiles\\workspace\\filelock\\foo.txt";
+string a = "F:\\" + x.destFile.timestamp + "\\" + x.destFile.fileName;
+cfg.addToLog(a);
+
+Alphaleonis.Win32.Filesystem.File.Copy(snap_path, a);
+
+//File.Copy(snap_path, x.destFile.driveTimeFilename);
+cfg.addToLog(x.sourceFile + ": copied snapshot via VSS");
+
+}*/
+
             this.cfg.addToLog("-----------------------------------------------------------------");
         }
 
         public DestinationFile createFileDestPath(string fileSourcePath, string destDrive)
         {
+            if(destDrive.EndsWith(":"))
+            {
+                destDrive += "\\";
+            }
             FileInfo f = new FileInfo(fileSourcePath);
             string src_drive = Path.GetPathRoot(f.FullName);
             string dest_file = fileSourcePath.Substring(src_drive.Length, fileSourcePath.Length - src_drive.Length);
@@ -442,6 +532,10 @@ namespace yahb
 
         public string createDirDestPath(string dirSourcePath, string destDrive)
         {
+            if (destDrive.EndsWith(":"))
+            {
+                destDrive += "\\";
+            }
             DirectoryInfo f = new DirectoryInfo(dirSourcePath);
             string src_drive = Path.GetPathRoot(f.FullName);
             string des_dir = dirSourcePath.Substring(src_drive.Length, dirSourcePath.Length - src_drive.Length);

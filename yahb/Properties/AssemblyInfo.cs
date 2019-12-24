@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die einer Assembly zugeordnet sind.
 [assembly: AssemblyTitle("yahb")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Yet Another Hardlink-based Backup-tool")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("yahb")]
-[assembly: AssemblyCopyright("Copyright ©  2019")]
+[assembly: AssemblyProduct("Yet Another Hardlink-based Backup-tool")]
+[assembly: AssemblyCopyright("© 2019, Dominik Klein.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

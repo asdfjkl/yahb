@@ -25,14 +25,14 @@ namespace yahb {
                 // Create an array of all possible command-line parameters
                 // and how to parse them.
                 object[,] mySwitches = new object[2, 15] {
-                 {"s", "lev", "if", "copyall" ,
-                    "id", "novss", "xf", "xd", 
-                      "list", "v", "log", "+log", 
-                        "tee", "?", "files"},
-                 {ArgType.SimpleSwitch, ArgType.Compound, ArgType.Compound, ArgType.SimpleSwitch,
-                   ArgType.Compound, ArgType.SimpleSwitch, ArgType.Compound, ArgType.Compound,
-                     ArgType.SimpleSwitch, ArgType.SimpleSwitch, ArgType.Compound, ArgType.Compound,
-                       ArgType.SimpleSwitch, ArgType.SimpleSwitch, ArgType.Complex}};
+                 {"s", "if", "copyall" , "id", 
+                        "xf", "xd", "list", "verbose", 
+                        "log", "+log", "tee", "?", 
+                        "files", "vss", "help"},
+                 {ArgType.SimpleSwitch, ArgType.Compound, ArgType.SimpleSwitch, ArgType.Compound, 
+                        ArgType.Compound, ArgType.Compound, ArgType.SimpleSwitch, ArgType.SimpleSwitch, 
+                        ArgType.Compound, ArgType.Compound, ArgType.SimpleSwitch, ArgType.SimpleSwitch, 
+                        ArgType.Complex, ArgType.SimpleSwitch, ArgType.SimpleSwitch}};
 
                 for (int counter = 0; counter < args.Length; counter++)
                 {
@@ -46,10 +46,17 @@ namespace yahb {
                         {
                             // cannot be - even when omitting the source directory
                             // we need at least the destination directory in arg[0]
-                            throw (new ArgumentException(
-                                      "Cmd-Line parameter error: " + args[counter] +
-                                      "is a parameter, but a directory is expected.")
-                                );
+                            // only exception: user requested /help
+                            if (args[counter].Equals("/help"))
+                            {
+                                // todo: show help and exit
+                            } else
+                            {
+                                throw (new ArgumentException(
+                                          "Cmd-Line parameter error: " + args[counter] +
+                                          "is a parameter, but a directory is expected.")
+                                    );
+                            }
                         }
                     }
 
@@ -119,11 +126,11 @@ namespace yahb {
                                         cfg.maxLvel = System.Int32.Parse(theArgument);
                                         break;
 
-                                    case "id":
+                                    case "id":                                        
                                         cfg.fnInputDirectories = theArgument;
                                         break;
 
-                                    case "sc":
+                                    case "vss":
                                         cfg.useVss = true;
                                         break;
 
@@ -152,7 +159,7 @@ namespace yahb {
                                         cfg.dryRun = true;
                                         break;
 
-                                    case "v":
+                                    case "verbose":
                                         cfg.verboseMode = true;
                                         break;
 
@@ -178,6 +185,10 @@ namespace yahb {
                                         cfg.showHelp = true;
                                         break;
 
+                                    case "help":
+                                        cfg.showHelp = true;
+                                        break;
+
                                     default:
                                         throw (new ArgumentException(
                                            "Cmd-Line parameter error: Switch " +
@@ -188,6 +199,14 @@ namespace yahb {
                         }
                     }
                 }
+                // first check if user requested help. if so, show help
+                // and immediately exit
+                if(cfg.showHelp)
+                {
+                    parse.DisplayVerboseHelp();
+                    return;
+                }
+
                 // check sanity of parsed configuration
                 // throws ArgumentException on inconsistencies
                 cfg.checkConsistency();

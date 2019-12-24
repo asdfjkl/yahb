@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -143,6 +145,16 @@ namespace yahb
                     "does not exist");
             }
 
+            if (this.destinationDirectory.EndsWith(":"))
+            {
+                this.destinationDirectory += "\\";
+            }
+
+            if (this.useVss && !this.IsAdmin)
+            {
+                throw new ArgumentException("error: shadow copy /sc requested, but program is not run with admin rights!");
+            }
+
             // check if we have a valid log-file path
             if(!string.IsNullOrEmpty(this.fnLogFile))
             {
@@ -221,6 +233,24 @@ namespace yahb
                 this.logsCached = 0;
             }
 
+        }
+
+        
+        private bool IsAdmin
+        {
+            get
+            {
+                WindowsIdentity identity = WindowsIdentity.GetCurrent();
+                if (identity != null)
+                {
+                    WindowsPrincipal principal = new WindowsPrincipal(identity);
+                    List<Claim> list = new List<Claim>(principal.UserClaims);
+                    Claim c = list.Find(p => p.Value.Contains("S-1-5-32-544"));
+                    if (c != null)
+                        return true;
+                }
+                return false;
+            }
         }
 
         public override string ToString()

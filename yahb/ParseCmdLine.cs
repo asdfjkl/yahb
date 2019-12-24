@@ -24,7 +24,6 @@ namespace yahb
                 throw (new ArgumentException("Command-Line parameter error: switch " +
                       arg + " must not be followed by one or more arguments.", arg));
             }
-
             return (arg);
         }
 
@@ -131,24 +130,52 @@ namespace yahb
 
             FileVersionInfo version =
                        Process.GetCurrentProcess().MainModule.FileVersionInfo;
-            if (Process.GetCurrentProcess().ProcessName.Trim().Length > 0)
-            {
-                Console.WriteLine(Process.GetCurrentProcess().ProcessName);
-            }
-            else
-            {
-                Console.WriteLine("Product Name: " + version.ProductName);
-            }
+            //if (Process.GetCurrentProcess().ProcessName.Trim().Length > 0)
+            //{
+            //    Console.WriteLine(Process.GetCurrentProcess().ProcessName);
+            //}
+            //else
+            //{
+            Console.WriteLine("YAHB: " + version.ProductName);
+            //}
 
             Console.WriteLine("Version " + version.FileVersion);
             Console.WriteLine("Copyright " + version.LegalCopyright);
-            Console.WriteLine("TradeMarks " + version.LegalTrademarks);
 
             DisplayHelp();
         }
         public virtual void DisplayHelp()
         {
-            Console.WriteLine("See help for command-line usage.");
+            Console.WriteLine("See help (/? oder /help) for command-line usage.");
+        }
+
+        public void DisplayVerboseHelp()
+        {
+            Console.WriteLine("YAHB (Yet Another Hardlink-based Backup-Tool)");
+            FileVersionInfo version =
+                       Process.GetCurrentProcess().MainModule.FileVersionInfo;
+            Console.WriteLine("Version " + version.FileVersion);
+            Console.WriteLine("Copyright " + version.LegalCopyright);
+            Console.WriteLine("");
+            Console.WriteLine("     Syntax:: yahb.exe <source-dir> <target-dir> [<options>]");
+            Console.WriteLine("");
+            Console.WriteLine(" source-dir:: source directory (i.e. C:\\MyFiles)");
+            Console.WriteLine(" target-dir:: target directory (i.e. D:\\Backups)");
+            Console.WriteLine("");
+            Console.WriteLine("TYPICAL EXAMPLES:");
+            Console.WriteLine("");
+            Console.WriteLine("OPTIONS");
+            Console.WriteLine("  /copyall:: copy ALL files. Otherwise the following directory");
+            Console.WriteLine("             patterns and file types are excluded:");
+            Console.WriteLine("              <todo>");
+            Console.WriteLine("  /files:pattern1;pattern2;...:: copy ALL files. Otherwise the following directory");
+            // source-dir
+            // target-dir
+            // 
+            // typical examples
+            //
+            // copyall files  help id  if list log +log s tee verbose vss xd xf ?
+
         }
     }
 }
