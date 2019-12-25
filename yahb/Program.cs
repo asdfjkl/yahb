@@ -24,12 +24,12 @@ namespace yahb {
             {
                 // Create an array of all possible command-line parameters
                 // and how to parse them.
-                object[,] mySwitches = new object[2, 15] {
-                 {"s", "if", "copyall" , "id", 
+                object[,] mySwitches = new object[2, 14] {
+                 {"s", "copyall" , "id", 
                         "xf", "xd", "list", "verbose", 
                         "log", "+log", "tee", "?", 
                         "files", "vss", "help"},
-                 {ArgType.SimpleSwitch, ArgType.Compound, ArgType.SimpleSwitch, ArgType.Compound, 
+                 {ArgType.SimpleSwitch, ArgType.SimpleSwitch, ArgType.Compound, 
                         ArgType.Compound, ArgType.Compound, ArgType.SimpleSwitch, ArgType.SimpleSwitch, 
                         ArgType.Compound, ArgType.Compound, ArgType.SimpleSwitch, ArgType.SimpleSwitch, 
                         ArgType.Complex, ArgType.SimpleSwitch, ArgType.SimpleSwitch}};

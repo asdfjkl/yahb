@@ -162,20 +162,79 @@ namespace yahb
             Console.WriteLine(" source-dir:: source directory (i.e. C:\\MyFiles)");
             Console.WriteLine(" target-dir:: target directory (i.e. D:\\Backups)");
             Console.WriteLine("");
-            Console.WriteLine("TYPICAL EXAMPLES:");
+            Console.WriteLine("TYPICAL EXAMPLE:");
+            Console.WriteLine("");
+            Console.WriteLine(" yahb c:\\MyFiles d:\\Backup /s /xf:*.tmp");
+            Console.WriteLine("");
+            Console.WriteLine("will copy all files and the directory structure from c:\\MyFiles");
+            Console.WriteLine("to d:\\Backup\\YYYYMMDDHHMM, including all subdirectories. Yahb will");
+            Console.WriteLine("also look for previous backups of c:\\MyFiles in d:\\Backup, and if");
+            Console.WriteLine("a file has not changed, it will create a hardlink to that location.");
+            Console.WriteLine("Moreover, all files with ending .tmp will be skipped.");
             Console.WriteLine("");
             Console.WriteLine("OPTIONS");
-            Console.WriteLine("  /copyall:: copy ALL files. Otherwise the following directory");
-            Console.WriteLine("             patterns and file types are excluded:");
-            Console.WriteLine("              <todo>");
-            Console.WriteLine("  /files:pattern1;pattern2;...:: copy ALL files. Otherwise the following directory");
-            // source-dir
-            // target-dir
-            // 
-            // typical examples
-            //
-            // copyall files  help id  if list log +log s tee verbose vss xd xf ?
-
+            Console.WriteLine("--------------------------------------------------------------------------------");
+            Console.WriteLine("  /copyall                 :: copy ALL files. Otherwise the following directory");
+            Console.WriteLine("                              patterns and file types are excluded:");
+            Console.WriteLine("");
+            Console.WriteLine("                              DIRECTORIES:");
+            Console.WriteLine("                              - 'System Volume Information'");
+            Console.WriteLine("                              - 'AppData\\Local\\Temp'");
+            Console.WriteLine("                              - 'AppData\\Local\\Microsoft\\Windows\\INetCache'");
+            Console.WriteLine("                              - 'C:\\Windows'");
+            Console.WriteLine("                              - '$Recycle.Bin'");
+            Console.WriteLine("");
+            Console.WriteLine("                              FILES AND PLACEHOLDERS:");
+            Console.WriteLine("                              - hiberfil.sys");
+            Console.WriteLine("                              - pagefile.sys");
+            Console.WriteLine("                              - swapfile.sys");
+            Console.WriteLine("                              - *.~");
+            Console.WriteLine("                              - *.temp");
+            Console.WriteLine("");
+            Console.WriteLine("  /files:PAT1;PAT2;...     :: copy only files that match the supplied");
+            Console.WriteLine("                              file patterns (like *.exe)");
+            Console.WriteLine("");
+            Console.WriteLine("  /help                    :: display this help screen");
+            Console.WriteLine("");
+            Console.WriteLine("  /id:FILENAME             :: supply a list of Input Directories to copy which");
+            Console.WriteLine("                              are stored line by line in a textfile FILENAME.");
+            Console.WriteLine("                              If this options is used, <source-dir> can be");
+            Console.WriteLine("                              omitted. If both <source-dir> and /id:FILENAME");
+            Console.WriteLine("                              are present, all directories will be copied.");
+            Console.WriteLine("");
+            Console.WriteLine("  /list                    :: do not copy anything, just list all files");
+            Console.WriteLine("");
+            Console.WriteLine("  /log:FILENAME            :: write all output (log) to a textfile FILNAME.");
+            Console.WriteLine("                              If FILENAME exists, it will be overwritten");
+            Console.WriteLine("");
+            Console.WriteLine("  /+log:FILENAME           :: same as /log:FILENAME, but always append, i.e.");
+            Console.WriteLine("                              do not not overwrite FILENAME if it exists.");
+            Console.WriteLine("");
+            Console.WriteLine("  /s                       :: also copy all SUBDIRECTORIES of <source-dir>");
+            Console.WriteLine("");
+            Console.WriteLine("  /tee                     :: even if /log:FILENAME or /+log:FILENAME is");
+            Console.WriteLine("                              chosen, still write everything additionally");
+            Console.WriteLine("                              to console output.");
+            Console.WriteLine("");
+            Console.WriteLine("  /verbose                 :: show verbose output, i.e. also show all skipped");
+            Console.WriteLine("                              files and directories (i.e. due to lacking");
+            Console.WriteLine("                              permissions). On default, only copied files");
+            Console.WriteLine("                              are listed resp. included in logs.");
+            Console.WriteLine("");
+            Console.WriteLine("  /vss                     :: If a file is currently in use, and cannot be");
+            Console.WriteLine("                              accessed, try to still copy that file by using");
+            Console.WriteLine("                              Windows' Volume Shadow Copy Service.");
+            Console.WriteLine("                              YOU NEED TO RUN YAHB WITH ELEVATED (ADMIN)");
+            Console.WriteLine("                              RIGHTS FOR THIS TO WORK.");
+            Console.WriteLine("");
+            Console.WriteLine("  /xd:DIR1;DIR2;...        :: eXclude directories dir1, dir2, and so forth.");
+            Console.WriteLine("                              I.e. if DIR is provided here, any (full)" );
+            Console.WriteLine("                              directory path that contains DIR is skipped");
+            Console.WriteLine("");
+            Console.WriteLine("  /xf:PAT1;PAT2;...        :: eXclude files with filename PAT1, PAT2 and so");
+            Console.WriteLine("                              forth. PAT can also be a file pattern like *.tmp");
+            Console.WriteLine("");
+            Console.WriteLine("  /?                       :: display this help screen");
         }
     }
 }
