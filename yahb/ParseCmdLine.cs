@@ -173,7 +173,7 @@ namespace yahb
             Console.WriteLine("Moreover, all files with ending .tmp will be skipped.");
             Console.WriteLine("");
             Console.WriteLine("OPTIONS");
-            Console.WriteLine("--------------------------------------------------------------------------------");
+            //Console.WriteLine("--------------------------------------------------------------------------------");
             Console.WriteLine("  /copyall                 :: copy ALL files. Otherwise the following directory");
             Console.WriteLine("                              patterns and file types are excluded:");
             Console.WriteLine("");
