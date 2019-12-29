@@ -136,7 +136,7 @@ namespace yahb
             if(!hasInput)
             {
                 throw new ArgumentException("error: no valid input directory defined, and no valid " +
-                    "directory or file lists supplied via /id or /if");
+                    "directory list supplied via /id");
             }
 
             // check if we have a valid destination directory
@@ -150,9 +150,9 @@ namespace yahb
                 this.destinationDirectory += "\\";
             }
 
-            if (this.useVss && !this.IsAdmin)
+            if (this.useVss && !this.IsAdministrator())
             {
-                throw new ArgumentException("error: shadow copy /sc requested, but program is not run with admin rights!");
+                throw new ArgumentException("error: shadow copy /vss requested, but program is not run with admin rights!");
             }
 
             // check if we have a valid log-file path
@@ -235,7 +235,7 @@ namespace yahb
 
         }
 
-        
+        /*
         private bool IsAdmin
         {
             get
@@ -252,6 +252,13 @@ namespace yahb
                 }
                 return false;
             }
+        }*/
+
+        public bool IsAdministrator()
+        {
+            var identity = WindowsIdentity.GetCurrent();
+            var principal = new WindowsPrincipal(identity);
+            return principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
 
         public override string ToString()
