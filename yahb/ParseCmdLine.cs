@@ -201,6 +201,9 @@ namespace yahb
             Console.WriteLine("                              If this options is used, <source-dir> can be");
             Console.WriteLine("                              omitted. If both <source-dir> and /id:FILENAME");
             Console.WriteLine("                              are present, all directories will be copied.");
+            Console.WriteLine("                              NOTE that if /s is provided, it will NOT be ");
+            Console.WriteLine("                              applied to the list of input directories, but");
+            Console.WriteLine("                              will be applied to <source-dir>.");
             Console.WriteLine("");
             Console.WriteLine("  /list                    :: do not copy anything, just list all files");
             Console.WriteLine("");

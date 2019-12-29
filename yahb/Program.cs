@@ -30,7 +30,7 @@ namespace yahb {
                         "log", "+log", "tee", "?", 
                         "files", "vss", "help"},
                  {ArgType.SimpleSwitch, ArgType.SimpleSwitch, ArgType.Compound, 
-                        ArgType.Compound, ArgType.Compound, ArgType.SimpleSwitch, ArgType.SimpleSwitch, 
+                        ArgType.Complex, ArgType.Complex, ArgType.SimpleSwitch, ArgType.SimpleSwitch, 
                         ArgType.Compound, ArgType.Compound, ArgType.SimpleSwitch, ArgType.SimpleSwitch, 
                         ArgType.Complex, ArgType.SimpleSwitch, ArgType.SimpleSwitch}};
 
@@ -46,8 +46,8 @@ namespace yahb {
                         {
                             // cannot be - even when omitting the source directory
                             // we need at least the destination directory in arg[0]
-                            // only exception: user requested /help
-                            if (args[counter].Equals("/help"))
+                            // only exception: user requested /help or /?
+                            if (args[counter].Equals("/help") || args[counter].Equals("/?"))
                             {
                                 // todo: show help and exit
                             } else

@@ -129,7 +129,7 @@ namespace yahb
                 }
                 catch (Exception e)
                 {
-                    throw new ArgumentException("Error: could not load input directories from: " + this.fnInputDirectories);
+                    throw new ArgumentException("Error: could not load input directories from: " + this.fnInputDirectories + " "+e.Message);
                 }
             }
 
@@ -246,6 +246,7 @@ namespace yahb
                     WindowsPrincipal principal = new WindowsPrincipal(identity);
                     List<Claim> list = new List<Claim>(principal.UserClaims);
                     Claim c = list.Find(p => p.Value.Contains("S-1-5-32-544"));
+                    this.addToLog("seems to be admin!");
                     if (c != null)
                         return true;
                 }

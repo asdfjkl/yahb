@@ -48,7 +48,10 @@ namespace yahb
             if (cfg.copySubDirectories)
             {
                 Stack<string> dir_stack = new Stack<string>(20);
-                dir_stack.Push(cfg.sourceDirectory);
+                if (!String.IsNullOrEmpty(cfg.sourceDirectory))
+                {
+                    dir_stack.Push(cfg.sourceDirectory);
+                }
 
                 List<string> subdirs;
                 while (dir_stack.Count > 0)
@@ -63,7 +66,8 @@ namespace yahb
                         {
                             foreach (string commonDir in cfg.commonDirsToIgnore)
                             {
-                                if (currentDir.Contains(commonDir))
+                                // like ".Contains" but case insensitive
+                                if (currentDir.IndexOf(commonDir, StringComparison.OrdinalIgnoreCase) >= 0)
                                 {
                                     addDir = false;
                                     break;
@@ -124,7 +128,8 @@ namespace yahb
                 bool addDir = true;
                 foreach (string pattern_i in cfg.directoriesToIgnore)
                 {
-                    if (dir_i.Contains(pattern_i))
+                    if (dir_i.IndexOf(pattern_i, StringComparison.OrdinalIgnoreCase) >= 0)
+                    //if (dir_i.Contains(pattern_i))
                     {
                         addDir = false;
                         break;
@@ -169,18 +174,19 @@ namespace yahb
                 foreach (string file_i in files_dir_i)
                 {
                     bool addFile = false;
+                    string file_i_pure = System.IO.Path.GetFileName(file_i);
                     // only add those files that are in our extension list
                     if (cfg.fileEndings.Count() > 0)
                     {
                         foreach (string pattern_i in cfg.fileEndings)
                         {
-                            if (this.Like(file_i, pattern_i))
+                            if (this.Like(file_i_pure, pattern_i))
                             {
                                 addFile = true;
                                 break;
                             }
                         }
-                    } else
+                    } else // otherwise take file
                     {
                         addFile = true;
                     }
@@ -189,7 +195,7 @@ namespace yahb
                     {
                         foreach (string pattern_i in cfg.filePatternsToIgnore)
                         {
-                            if (this.Like(file_i, pattern_i))
+                            if (this.Like(file_i_pure, pattern_i))
                             {
                                 addFile = false;
                                 break;
@@ -200,9 +206,11 @@ namespace yahb
                     if(!cfg.copyAll)
                     {
                         foreach (string pattern_i in cfg.commonFilePatternsToIgnore)
-                        {
-                            if (this.Like(file_i, pattern_i))
-                            {
+                        {   
+                            // in our common File patterns, we also have full file names like "hiberfil.sys"
+                            // hence we must also check equality
+                            if (this.Like(file_i_pure, pattern_i) || string.Equals(file_i_pure, pattern_i))
+                            {   
                                 addFile = false;
                                 break;
                             }
@@ -385,6 +393,7 @@ namespace yahb
                 }
             }
 
+                      
             // copy all files
             var sourceDestFiles = this.sourceFileList.Zip(this.destFileList, (a, b) => new { sourceFile = a, destFile = b });
             foreach (var x in sourceDestFiles)
@@ -465,7 +474,7 @@ namespace yahb
                     {
                         if (cfg.verboseMode)
                         {
-                            cfg.addToLog(x.sourceFile + ": " + copyError.Message);
+                            cfg.addToLog(x.sourceFile + ": " + copyError.Message);                           
                         }
                     }
                 }
