@@ -81,7 +81,7 @@ namespace yahb
                         {
                             if(cfg.verboseMode)
                             {
-                                cfg.addToLog(currentDir + ": skipping");
+                                cfg.addToLog("ERR:" + currentDir + ": skipping");
                             }
                         }
                     }
@@ -89,7 +89,7 @@ namespace yahb
                     {
                         if (cfg.verboseMode)
                         {
-                            cfg.addToLog(currentDir + ":" + e.Message);
+                            cfg.addToLog("ERR:" + currentDir + ":" + e.Message);
                         }
                         continue;
                     }
@@ -97,7 +97,7 @@ namespace yahb
                     {
                         if (cfg.verboseMode)
                         {
-                            cfg.addToLog(currentDir + ":" + e.Message);
+                            cfg.addToLog("ERR:" + currentDir + ":" + e.Message);
                         }
                         continue;
                     }
@@ -105,7 +105,7 @@ namespace yahb
                     {
                         if (cfg.verboseMode)
                         {
-                            cfg.addToLog(currentDir + ":" + e.Message);
+                            cfg.addToLog("ERR:" + currentDir + ":" + e.Message);
                         }
                         continue;
                     }
@@ -142,7 +142,7 @@ namespace yahb
                 {
                     if (cfg.verboseMode)
                     {
-                        cfg.addToLog(dir_i + ": skipping");
+                        cfg.addToLog("ERR:" + dir_i + ": skipping");
                     }
                 }
             }
@@ -165,7 +165,7 @@ namespace yahb
                 {
                     if (cfg.verboseMode)
                     {
-                        this.cfg.addToLog(dir_i + ": " + e.Message);
+                        this.cfg.addToLog("ERR:" + dir_i + ": " + e.Message);
                     }
                     continue;
                 }
@@ -228,14 +228,14 @@ namespace yahb
                         {
                             if (cfg.verboseMode)
                             {
-                                this.cfg.addToLog(file_i + ": " + e.Message);
+                                this.cfg.addToLog("ERR:" + file_i + ": " + e.Message);
                             }
                         }
                     } else
                     {
                         if (cfg.verboseMode)
                         {
-                            cfg.addToLog(file_i + ": skipping");
+                            cfg.addToLog("ERR:" + file_i + ": skipping");
                         }
                     }
                 }
@@ -291,7 +291,7 @@ namespace yahb
             {
                 if (cfg.verboseMode)
                 {
-                    this.cfg.addToLog(destDirectory + ": " + e.Message);
+                    this.cfg.addToLog("ERR:" + destDirectory + ": " + e.Message);
                 }
                 throw new ArgumentException();
             }
@@ -299,7 +299,7 @@ namespace yahb
             {
                 if (cfg.verboseMode)
                 {
-                    this.cfg.addToLog(destDirectory + ": " + e.Message);
+                    this.cfg.addToLog("ERR:" + destDirectory + ": " + e.Message);
                 }
                 throw new ArgumentException();
             }
@@ -307,7 +307,7 @@ namespace yahb
             {
                 if (cfg.verboseMode)
                 {
-                    this.cfg.addToLog(destDirectory + ": " + e.Message);
+                    this.cfg.addToLog("ERR:" + destDirectory + ": " + e.Message);
                 }
                 throw new ArgumentException();
             }
@@ -347,7 +347,7 @@ namespace yahb
                 {
                     if (cfg.verboseMode)
                     {
-                        this.cfg.addToLog(destDir + ": " + ex.Message);
+                        this.cfg.addToLog("ERR:" + destDir + ": " + ex.Message);
                     }
                     continue;
                 }
@@ -355,7 +355,7 @@ namespace yahb
                 {
                     if (cfg.verboseMode)
                     {
-                        this.cfg.addToLog(destDir + ": " + ex.Message);
+                        this.cfg.addToLog("ERR:" + destDir + ": " + ex.Message);
                     }
                     continue;
                 }
@@ -363,7 +363,7 @@ namespace yahb
                 {
                     if (cfg.verboseMode)
                     {
-                        this.cfg.addToLog(destDir + ": " + ex.Message);
+                        this.cfg.addToLog("ERR:" + destDir + ": " + ex.Message);
                     }
                     continue;
                 }
@@ -371,7 +371,7 @@ namespace yahb
                 {
                     if (cfg.verboseMode)
                     {
-                        this.cfg.addToLog(destDir + ": " + ex.Message);
+                        this.cfg.addToLog("ERR:" + destDir + ": " + ex.Message);
                     }
                     continue;
                 }
@@ -379,7 +379,7 @@ namespace yahb
                 {
                     if (cfg.verboseMode)
                     {
-                        this.cfg.addToLog(destDir + ": " + ex.Message);
+                        this.cfg.addToLog("ERR:" + destDir + ": " + ex.Message);
                     }
                     continue;
                 }
@@ -387,7 +387,7 @@ namespace yahb
                 {
                     if (cfg.verboseMode)
                     {
-                        this.cfg.addToLog(destDir + ": " + ex.Message);
+                        this.cfg.addToLog("ERR:" + destDir + ": " + ex.Message);
                     }
                     continue;
                 }
@@ -424,7 +424,7 @@ namespace yahb
                                     }
                                     else
                                     {
-                                        cfg.addToLog(x.sourceFile + ": unable to create hardlink, copying instead");
+                                        cfg.addToLog("ERR:" + x.sourceFile + ": unable to create hardlink, copying instead");
                                     }
                                 } else
                                 {
@@ -458,7 +458,7 @@ namespace yahb
                         {
                             if (cfg.verboseMode)
                             {
-                                cfg.addToLog(x.sourceFile + ": sharing or lock violation, trying later w/ shadow copy");
+                                cfg.addToLog("ERR:" + x.sourceFile + ": sharing or lock violation, trying later w/ shadow copy");
                             }
                             Tuple<String, DestinationFile> tpl = new Tuple<String, DestinationFile>(x.sourceFile, x.destFile);
                             tryWithVSS.Add(tpl);
@@ -466,7 +466,7 @@ namespace yahb
                         {
                             if (cfg.verboseMode)
                             {
-                                cfg.addToLog(x.sourceFile + ": " + copyError.Message);
+                                cfg.addToLog("ERR:" + x.sourceFile + ": " + copyError.Message);
                             }
                         }
 
@@ -474,7 +474,7 @@ namespace yahb
                     {
                         if (cfg.verboseMode)
                         {
-                            cfg.addToLog(x.sourceFile + ": " + copyError.Message);                           
+                            cfg.addToLog("ERR:" + x.sourceFile + ": " + copyError.Message);                           
                         }
                     }
                 }
