@@ -20,7 +20,7 @@ The large `movie.avi` doesn't change. Your `todo.txt` is changed almost daily, b
     
 Suppose the next day (March 2nd, same time) you want to create another backup to the same location. The file `todo.txt` has changed inbetween, but the file `movie.avi` has not. YAHB will locate the last previous backup folder, and identify those files that changed, and those that didn't. Running YAHB again will result in the following backup:
 
-    F:\Backup\201903021512\C__\MyFiles\movie.avi -> NTFS hardlink to F:\Backup\201903011512\C__\MyFiles\movie.avi
+    F:\Backup\201903021512\C__\MyFiles\movie.avi -> hardlink to F:\Backup\201903011512\C__\MyFiles\movie.avi
     F:\Backup\201903021512\C__\MyFiles\todo.txt
     
 The folder `F:\Backup\201903021512` now only takes a few kilobytes, instead of 600 MB, since `movie.avi` is only stored once on the drive `F:`, but two NTFS hardlinks are pointing to it.
@@ -42,6 +42,8 @@ Just unzip to a folder, open a command-prompt and run `yahb`.
 ## Requirements
 
 YAHB is currently 64 bit only, i.e. you need Windows 7 64bit, Windows 8.1 64bit or Windows 10 64bit.
+
+The target drive MUST be NTFS-formatted. Otherwise hardlinks cannot be created.
 
 YAHB requires [Microsoft NET Framework 4.5](https://dotnet.microsoft.com/download/dotnet-framework) or higher. The following versions of Windows ship with suitable version of NET Framwework by default, i.e. you don't need to install anything if you run:
 - Windows 8.1
