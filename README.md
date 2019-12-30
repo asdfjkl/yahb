@@ -49,7 +49,7 @@ YAHB requires [Microsoft NET Framework 4.5](https://dotnet.microsoft.com/downloa
 - Windows 8.1
 - Windows 10 (any edition/version)
 
-If you are stll running Windows 7, download and install [Microsoft NET Framework 4.5](https://dotnet.microsoft.com/download/dotnet-framework)
+If you are stll running Windows 7, download and install the latest [Microsoft NET Framework](https://dotnet.microsoft.com/download/dotnet-framework)
 
 Only if you want to make use of [Windows Volume Shadow Copy Service](https://en.wikipedia.org/wiki/Shadow_Copy) to copy files currently in use, you need to additionally install [Microsoft Visual Studio C++ 2019 Redistributable]( https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads). You need the version for 64bit systems, i.e. `vc_redist.x64.exe`. Note that it's very likely that this is already installed on your system by other programs.
 
