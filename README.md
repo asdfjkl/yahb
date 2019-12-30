@@ -13,7 +13,7 @@ for which you want to create backups. Assume for simplicity that the folder cont
     C:\MyFiles\movie.avi (huge 600 MB movie file)
     C:\MyFiles\todo.txt  (your todo-list, few kilobytes)
 
-The large `movie.avi` doesn't change. Your `todo.txt` is changed almost daily, but it's only a very small file. Let's further assume, it March 1st, 2019, and the current time is 15:12, and you are creating backup with YAHB to `f:\Backup`. Then YAHB will simply copy `C:\MyFiles` as follows:
+The large `movie.avi` doesn't change. Your `todo.txt` is changed almost daily, but it's only a very small file. Let's further assume, it's March 1st, 2019, the current time is 15:12, and you are creating backup with YAHB to `F:\Backup`. Then YAHB will simply copy `C:\MyFiles` as follows:
 
     F:\Backup\201903011512\C__\MyFiles\movie.avi
     F:\Backup\201903011512\C__\MyFiles\todo.txt
