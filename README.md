@@ -47,7 +47,7 @@ The target drive MUST be NTFS-formatted. Otherwise hardlinks cannot be created.
 
 YAHB requires [Microsoft NET Framework 4.5](https://dotnet.microsoft.com/download/dotnet-framework) or higher. The following versions of Windows ship with suitable versions of NET Framwework by default, i.e. you don't need to install anything if you run:
 - Windows 8.1
-- Windows (any edition/version)
+- Windows 10 (any edition/version)
 
 If you are stll running Windows 7, download and install [Microsoft NET Framework 4.5](https://dotnet.microsoft.com/download/dotnet-framework)
 
