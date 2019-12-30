@@ -35,7 +35,7 @@ Moreover:
 
 The latest release is available HERE.
 
-# Installation
+## Installation
 
 Just unzip to a folder, open a command-prompt and run `yahb`.
 
