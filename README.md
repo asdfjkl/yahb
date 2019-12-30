@@ -58,5 +58,90 @@ Only if you want to make use of [Windows Volume Shadow Copy Service](https://en.
 
 Note: To use the option `/vss` you MUST run yahb with elevated rights, i.e. from an elevated command prompt.
 
+```
+YAHB (Yet Another Hardlink-based Backup-Tool)
+Version 1.0.0.0
+Copyright ¸ 2019, Dominik Klein.
 
+     Syntax:: yahb.exe <source-dir> <target-dir> [<options>]
+
+ source-dir:: source directory (i.e. C:\MyFiles)
+ target-dir:: target directory (i.e. D:\Backups)
+
+TYPICAL EXAMPLE:
+
+ yahb c:\MyFiles d:\Backup /s /xf:*.tmp
+
+will copy all files and the directory structure from c:\MyFiles
+to d:\Backup\YYYYMMDDHHMM, including all subdirectories. Yahb will
+also look for previous backups of c:\MyFiles in d:\Backup, and if
+a file has not changed, it will create a hardlink to that location.
+Moreover, all files with ending .tmp will be skipped.
+
+OPTIONS
+  /copyall                 :: copy ALL files. Otherwise the following directory
+                              patterns and file types are excluded:
+
+                              DIRECTORIES:
+                              - 'System Volume Information'
+                              - 'AppData\Local\Temp'
+                              - 'AppData\Local\Microsoft\Windows\INetCache'
+                              - 'C:\Windows'
+                              - '$Recycle.Bin'
+
+                              FILES AND PLACEHOLDERS:
+                              - hiberfil.sys
+                              - pagefile.sys
+                              - swapfile.sys
+                              - *.~
+                              - *.temp
+
+  /files:PAT1;PAT2;...     :: copy only files that match the supplied
+                              file patterns (like *.exe)
+
+  /help                    :: display this help screen
+
+  /id:FILENAME             :: supply a list of Input Directories to copy which
+                              are stored line by line in a textfile FILENAME.
+                              If this options is used, <source-dir> can be
+                              omitted. If both <source-dir> and /id:FILENAME
+                              are present, all directories will be copied.
+                              NOTE that if /s is provided, it will NOT be 
+                              applied to the list of input directories, but
+                              will be applied to <source-dir>.
+
+  /list                    :: do not copy anything, just list all files
+
+  /log:FILENAME            :: write all output (log) to a textfile FILNAME.
+                              If FILENAME exists, it will be overwritten
+
+  /+log:FILENAME           :: same as /log:FILENAME, but always append, i.e.
+                              do not not overwrite FILENAME if it exists.
+
+  /s                       :: also copy all SUBDIRECTORIES of <source-dir>
+
+  /tee                     :: even if /log:FILENAME or /+log:FILENAME is
+                              chosen, still write everything additionally
+                              to console output.
+
+  /verbose                 :: show verbose output, i.e. also show all skipped
+                              files and directories (i.e. due to lacking
+                              permissions). On default, only copied files
+                              are listed resp. included in logs.
+
+  /vss                     :: If a file is currently in use, and cannot be
+                              accessed, try to still copy that file by using
+                              Windows' Volume Shadow Copy Service.
+                              YOU NEED TO RUN YAHB WITH ELEVATED (ADMIN)
+                              RIGHTS FOR THIS TO WORK.
+
+  /xd:DIR1;DIR2;...        :: eXclude directories dir1, dir2, and so forth.
+                              I.e. if DIR is provided here, any (full)
+                              directory path that contains DIR is skipped
+
+  /xf:PAT1;PAT2;...        :: eXclude files with filename PAT1, PAT2 and so
+                              forth. PAT can also be a file pattern like *.tmp
+
+  /?                       :: display this help screen
+'''
 
