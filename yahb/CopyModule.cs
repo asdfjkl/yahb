@@ -516,7 +516,7 @@ namespace yahb
                                 if (remSecsTotal > 10)
                                 {
                                     int remSeconds = (int) (remSecsTotal % 60);
-                                    int remMinutes = (int) (remSecsTotal / 60);
+                                    int remMinutes = ((int) (remSecsTotal / 60)) % 60;
                                     int remHours = (int) (remSecsTotal / (60 * 60));                                    
                                     string strETR = String.Format("{0:00}:{1:00}:{2:00}", remHours, remMinutes, remSeconds);
                                     cfg.addToLog("copying files: " + strPerc + "% finished, remaining: " + (cntAll - counter) + " files; ETR: " + strETR);
