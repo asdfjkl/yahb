@@ -79,6 +79,7 @@ a file has not changed, it will create a hardlink to that location.
 Moreover, all files with ending .tmp will be skipped.
 
 OPTIONS
+
   /copyall                 :: copy ALL files. Otherwise the following directory
                               patterns and file types are excluded:
 
