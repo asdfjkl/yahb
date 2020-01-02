@@ -43,7 +43,7 @@ Just unzip to a folder, open a command-prompt and run `yahb`.
 
 YAHB is currently 64 bit only, i.e. you need Windows 7 64bit, Windows 8.1 64bit or Windows 10 64bit.
 
-The target drive MUST be NTFS-formatted. Otherwise hardlinks cannot be created.
+When copying to a locally attached drive, the target drive MUST be NTFS-formatted. Otherwise hardlinks cannot be created. When copying to a network share, things are more complicated. Basically the underlying file system must support hardlinks, and must expose hardlink creation in such a way, that Windows API commands can be used to create hardlinks. Fortunately, most typical NAS solutions (based on SAMBA) like Synology or QNAP support this out-of-the-box.
 
 YAHB requires [Microsoft NET Framework 4.5](https://dotnet.microsoft.com/download/dotnet-framework) or higher. The following versions of Windows ship with suitable versions of NET Framwework by default, i.e. you don't need to install anything if you run:
 - Windows 8.1
