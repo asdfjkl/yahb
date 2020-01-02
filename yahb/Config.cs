@@ -28,6 +28,7 @@ namespace yahb
         public List<String> fileEndings;
         public bool copyAll;
         public bool logToFile;
+        public bool pauseAtEnd;
 
         public List<String> commonDirsToIgnore;
         public List<String> commonFilePatternsToIgnore;
@@ -54,6 +55,7 @@ namespace yahb
             this.fileEndings = new List<String>();
             this.copyAll = false;
             this.logToFile = false;
+            this.pauseAtEnd = false;
             this.commonDirsToIgnore = new List<String>();
             commonDirsToIgnore.Add("System Volume Information");
             commonDirsToIgnore.Add("AppData\\Local\\Temp");

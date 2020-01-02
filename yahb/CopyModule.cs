@@ -340,7 +340,10 @@ namespace yahb
                     {
                         System.IO.Directory.CreateDirectory(destDir);
                     }
-                    cfg.addToLog(destDir + ": created");
+                    if (cfg.verboseMode)
+                    {
+                        cfg.addToLog(destDir + ": created");
+                    }
                     
                 }
                 catch (DirectoryNotFoundException ex)
@@ -396,6 +399,17 @@ namespace yahb
                       
             // copy all files
             var sourceDestFiles = this.sourceFileList.Zip(this.destFileList, (a, b) => new { sourceFile = a, destFile = b });
+            int counter = 0;
+            int cntAll = sourceDestFiles.Count();
+
+            int onePercent  = (int) ((float) cntAll * 100.0);
+            if(onePercent + 1 < cntAll)
+            {
+                onePercent += 1;
+            }
+            double fivePercent = Math.Round(((float)cntAll / 20.0));
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+
             foreach (var x in sourceDestFiles)
             {
                 try
@@ -420,7 +434,10 @@ namespace yahb
                                     if (CreateHardLink(x.destFile.driveTimeFilename, oldFn, IntPtr.Zero))
                                     {
                                         makeCopy = false;
-                                        cfg.addToLog(x.sourceFile + ": creating hardlink to " + oldFn);
+                                        if (cfg.verboseMode)
+                                        {
+                                            cfg.addToLog(x.sourceFile + ": creating hardlink to " + oldFn);
+                                        }
                                     }
                                     else
                                     {
@@ -428,7 +445,10 @@ namespace yahb
                                     }
                                 } else
                                 {
-                                    cfg.addToLog(x.sourceFile + ": creating hardlink to " + oldFn);
+                                    if (cfg.verboseMode)
+                                    {
+                                        cfg.addToLog(x.sourceFile + ": creating hardlink to " + oldFn);
+                                    }
                                 }
                             }
                         }
@@ -442,11 +462,11 @@ namespace yahb
                             fi_dest.CreationTime = fi_source.CreationTime;
                             fi_dest.LastWriteTime = fi_source.LastWriteTime;
                             fi_dest.LastAccessTime = fi_source.LastAccessTime;
-                            cfg.addToLog(x.sourceFile + ": file copied");
+                            //cfg.addToLog(x.sourceFile + ": file copied");
                         }
                     } else
                     {
-                        cfg.addToLog(x.sourceFile + ": file copied");
+                        //cfg.addToLog(x.sourceFile + ": file copied");
                     }
                 }
                 catch (IOException copyError)
@@ -478,7 +498,49 @@ namespace yahb
                         }
                     }
                 }
+                counter += 1;
+                if (!cfg.verboseMode)
+                {
+                    if (cntAll > 500)
+                    {
+                        if (counter + 1 < cntAll && ((counter == onePercent) || (fivePercent != 0 && counter % fivePercent == 0)))
+                        {
+                            int progress = (int)((((double)counter / (double)cntAll)) * 100.0);
+                            string strPerc = String.Format("{0:00}", progress);
+                            if (progress > 0)
+                            {
+                                watch.Stop();
+                                long passedSecs = watch.ElapsedMilliseconds / 1000;
+                                double ratio = ((double) cntAll - (double)(counter + 1)) / (double) (counter + 1);
+                                long remSecsTotal = (long)(passedSecs * ratio);
+                                if (remSecsTotal > 10)
+                                {
+                                    int remSeconds = (int) (remSecsTotal % 60);
+                                    int remMinutes = (int) (remSecsTotal / 60);
+                                    int remHours = (int) (remSecsTotal / (60 * 60));                                    
+                                    string strETR = String.Format("{0:00}:{1:00}:{2:00}", remHours, remMinutes, remSeconds);
+                                    cfg.addToLog("copying files: " + strPerc + "% finished, remaining: " + (cntAll - counter) + " files; ETR: " + strETR);
+                                }
+                                else
+                                {
+                                    cfg.addToLog("copying files: " + strPerc + "% finished, remaining: " + (cntAll - counter) + " files");
+                                }
+                                watch.Start();
+                            }
+                        }
+                    }
+                }
             }
+
+            cfg.addToLog("copying files: finished.");
+            watch.Stop();
+            TimeSpan ts = watch.Elapsed;
+            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                ts.Hours, ts.Minutes, ts.Seconds,
+                ts.Milliseconds / 10);
+            Console.WriteLine("Time Required: " + elapsedTime);
+
+            //cfg.addToLog("Time required: "+hours+":"+minutes+":"+seconds);
 
             if (this.cfg.useVss && tryWithVSS.Count > 0)
             {
@@ -495,8 +557,7 @@ namespace yahb
                     }
                 }
             }
-
-
+            
             /*
 
 // Initialize the shadow copy subsystem.

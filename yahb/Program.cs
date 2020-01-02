@@ -24,12 +24,12 @@ namespace yahb {
             {
                 // Create an array of all possible command-line parameters
                 // and how to parse them.
-                object[,] mySwitches = new object[2, 14] {
-                 {"s", "copyall" , "id", 
+                object[,] mySwitches = new object[2, 15] {
+                 {"s", "copyall" , "id", "pause", 
                         "xf", "xd", "list", "verbose", 
                         "log", "+log", "tee", "?", 
                         "files", "vss", "help"},
-                 {ArgType.SimpleSwitch, ArgType.SimpleSwitch, ArgType.Compound, 
+                 {ArgType.SimpleSwitch, ArgType.SimpleSwitch, ArgType.Compound, ArgType.SimpleSwitch,
                         ArgType.Complex, ArgType.Complex, ArgType.SimpleSwitch, ArgType.SimpleSwitch, 
                         ArgType.Compound, ArgType.Compound, ArgType.SimpleSwitch, ArgType.SimpleSwitch, 
                         ArgType.Complex, ArgType.SimpleSwitch, ArgType.SimpleSwitch}};
@@ -173,6 +173,10 @@ namespace yahb {
                                         cfg.overwriteLogFile = false;
                                         break;
 
+                                    case "pause":
+                                        cfg.pauseAtEnd = true;
+                                        break;
+
                                     case "tee":
                                         cfg.writeToLogAndConsole = true;
                                         break;
@@ -228,6 +232,11 @@ namespace yahb {
             List<String> dirs = cm.createDirectoryList();
             cm.createFileList(dirs);
             cm.doCopy();
+            if(cfg.pauseAtEnd)
+            {
+                Console.WriteLine("Press ENTER to exit.");
+                Console.ReadLine();
+            }
 
         }
     }
