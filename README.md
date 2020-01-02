@@ -117,6 +117,12 @@ OPTIONS
 
   /+log:FILENAME           :: same as /log:FILENAME, but always append, i.e.
                               do not not overwrite FILENAME if it exists.
+  
+  /pause                   :: after finishing, wait for the user to press
+                              ENTER before closing the program. This
+                              prevents a command-prompt from vanishing
+                              after finishing if run e.g. by Windows' RUNAS
+                              command
 
   /s                       :: also copy all SUBDIRECTORIES of <source-dir>
 
@@ -124,10 +130,12 @@ OPTIONS
                               chosen, still write everything additionally
                               to console output.
 
-  /verbose                 :: show verbose output, i.e. also show all skipped
-                              files and directories (i.e. due to lacking
-                              permissions). On default, only copied files
-                              are listed resp. included in logs.
+  /verbose                 :: by default, only the progress and errors 
+                              are output to the console/log. In verbose
+                              mode, all created files and directories
+                              are listed - not that for large copy
+                              operations, this frequent output to console
+                              will slow down the overal operation
 
   /vss                     :: If a file is currently in use, and cannot be
                               accessed, try to still copy that file by using
@@ -143,5 +151,4 @@ OPTIONS
                               forth. PAT can also be a file pattern like *.tmp
 
   /?                       :: display this help screen
-'''
 
