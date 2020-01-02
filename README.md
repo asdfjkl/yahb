@@ -135,7 +135,7 @@ OPTIONS
   /verbose                 :: by default, only the progress and errors 
                               are output to the console/log. In verbose
                               mode, all created files and directories
-                              are listed - not that for large copy
+                              are listed - note that for large copy
                               operations, this frequent output to console
                               will slow down the overal operation
 
