@@ -81,32 +81,23 @@ namespace yahb
                         {
                             if(cfg.verboseMode)
                             {
-                                cfg.addToLog("ERR:" + currentDir + ": skipping");
+                                cfg.addToLog(currentDir + ": skipping");
                             }
                         }
                     }
                     catch (UnauthorizedAccessException e)
                     {
-                        if (cfg.verboseMode)
-                        {
-                            cfg.addToLog("ERR:" + currentDir + ":" + e.Message);
-                        }
+                        cfg.addToLog("ERR:" + currentDir + ":" + e.Message);                        
                         continue;
                     }
                     catch (DirectoryNotFoundException e)
                     {
-                        if (cfg.verboseMode)
-                        {
-                            cfg.addToLog("ERR:" + currentDir + ":" + e.Message);
-                        }
+                        cfg.addToLog("ERR:" + currentDir + ":" + e.Message);
                         continue;
                     }
                     catch (PathTooLongException e)
                     {
-                        if (cfg.verboseMode)
-                        {
-                            cfg.addToLog("ERR:" + currentDir + ":" + e.Message);
-                        }
+                        cfg.addToLog("ERR:" + currentDir + ":" + e.Message);
                         continue;
                     }
                     foreach (string str in subdirs)
@@ -142,7 +133,7 @@ namespace yahb
                 {
                     if (cfg.verboseMode)
                     {
-                        cfg.addToLog("ERR:" + dir_i + ": skipping");
+                        cfg.addToLog(dir_i + ": skipping");
                     }
                 }
             }
@@ -152,7 +143,7 @@ namespace yahb
 
         public void createFileList(List<String> inputDirList) {
 
-            cfg.addToLog("create list of files ... ");
+            cfg.addToLog("creating list of files ... ");
 
             foreach (string dir_i in inputDirList)
             {
@@ -163,10 +154,7 @@ namespace yahb
                 }
                 catch (System.IO.PathTooLongException e)
                 {
-                    if (cfg.verboseMode)
-                    {
-                        this.cfg.addToLog("ERR:" + dir_i + ": " + e.Message);
-                    }
+                    this.cfg.addToLog("ERR:" + dir_i + ": " + e.Message);
                     continue;
                 }
 
@@ -226,16 +214,13 @@ namespace yahb
                             this.sourceFileList.Add(file_i);
                         } catch (System.IO.PathTooLongException e)
                         {
-                            if (cfg.verboseMode)
-                            {
-                                this.cfg.addToLog("ERR:" + file_i + ": " + e.Message);
-                            }
+                            this.cfg.addToLog("ERR:" + file_i + ": " + e.Message);
                         }
                     } else
                     {
                         if (cfg.verboseMode)
                         {
-                            cfg.addToLog("ERR:" + file_i + ": skipping");
+                            cfg.addToLog(file_i + ": skipping");
                         }
                     }
                 }
@@ -253,7 +238,7 @@ namespace yahb
             {
                 Console.WriteLine(df.driveTimeFilename);
             }*/
-            cfg.addToLog("create list of files ... DONE");
+            cfg.addToLog("creating list of files ... DONE");
         }
 
         public string getLastDir(string destDirectory)
@@ -289,26 +274,17 @@ namespace yahb
             }
             catch (UnauthorizedAccessException e)
             {
-                if (cfg.verboseMode)
-                {
-                    this.cfg.addToLog("ERR:" + destDirectory + ": " + e.Message);
-                }
+                this.cfg.addToLog("ERR:" + destDirectory + ": " + e.Message);
                 throw new ArgumentException();
             }
             catch (DirectoryNotFoundException e)
             {
-                if (cfg.verboseMode)
-                {
-                    this.cfg.addToLog("ERR:" + destDirectory + ": " + e.Message);
-                }
+                this.cfg.addToLog("ERR:" + destDirectory + ": " + e.Message);
                 throw new ArgumentException();
             }
             catch (PathTooLongException e)
             {
-                if (cfg.verboseMode)
-                {
-                    this.cfg.addToLog("ERR:" + destDirectory + ": " + e.Message);
-                }
+                this.cfg.addToLog("ERR:" + destDirectory + ": " + e.Message);
                 throw new ArgumentException();
             }
         }
@@ -348,50 +324,32 @@ namespace yahb
                 }
                 catch (DirectoryNotFoundException ex)
                 {
-                    if (cfg.verboseMode)
-                    {
-                        this.cfg.addToLog("ERR:" + destDir + ": " + ex.Message);
-                    }
+                    this.cfg.addToLog("ERR:" + destDir + ": " + ex.Message);
                     continue;
                 }
                 catch (NotSupportedException ex)
                 {
-                    if (cfg.verboseMode)
-                    {
-                        this.cfg.addToLog("ERR:" + destDir + ": " + ex.Message);
-                    }
+                    this.cfg.addToLog("ERR:" + destDir + ": " + ex.Message);
                     continue;
                 }
                 catch (PathTooLongException ex)
                 {
-                    if (cfg.verboseMode)
-                    {
-                        this.cfg.addToLog("ERR:" + destDir + ": " + ex.Message);
-                    }
+                    this.cfg.addToLog("ERR:" + destDir + ": " + ex.Message);
                     continue;
                 }
                 catch (UnauthorizedAccessException ex)
                 {
-                    if (cfg.verboseMode)
-                    {
-                        this.cfg.addToLog("ERR:" + destDir + ": " + ex.Message);
-                    }
+                    this.cfg.addToLog("ERR:" + destDir + ": " + ex.Message);
                     continue;
                 }
                 catch (ArgumentException ex)
                 {
-                    if (cfg.verboseMode)
-                    {
-                        this.cfg.addToLog("ERR:" + destDir + ": " + ex.Message);
-                    }
+                    this.cfg.addToLog("ERR:" + destDir + ": " + ex.Message);
                     continue;
                 }
                 catch (IOException ex)
                 {
-                    if (cfg.verboseMode)
-                    {
-                        this.cfg.addToLog("ERR:" + destDir + ": " + ex.Message);
-                    }
+                    this.cfg.addToLog("ERR:" + destDir + ": " + ex.Message);
                     continue;
                 }
             }
@@ -462,11 +420,17 @@ namespace yahb
                             fi_dest.CreationTime = fi_source.CreationTime;
                             fi_dest.LastWriteTime = fi_source.LastWriteTime;
                             fi_dest.LastAccessTime = fi_source.LastAccessTime;
-                            //cfg.addToLog(x.sourceFile + ": file copied");
+                            if (cfg.verboseMode)
+                            {
+                                cfg.addToLog(x.sourceFile + ": file copied");
+                            }
                         }
                     } else
                     {
-                        //cfg.addToLog(x.sourceFile + ": file copied");
+                        if (cfg.verboseMode)
+                        {
+                            cfg.addToLog(x.sourceFile + ": file copied");
+                        }
                     }
                 }
                 catch (IOException copyError)
@@ -476,26 +440,17 @@ namespace yahb
                         int errorCode = Marshal.GetHRForException(copyError) & ((1 << 16) - 1);
                         if (errorCode == ERROR_SHARING_VIOLATION || errorCode == ERROR_LOCK_VIOLATION)
                         {
-                            if (cfg.verboseMode)
-                            {
-                                cfg.addToLog("ERR:" + x.sourceFile + ": sharing or lock violation, trying later w/ shadow copy");
-                            }
+                            cfg.addToLog("ERR:" + x.sourceFile + ": sharing or lock violation, trying later w/ shadow copy");
                             Tuple<String, DestinationFile> tpl = new Tuple<String, DestinationFile>(x.sourceFile, x.destFile);
                             tryWithVSS.Add(tpl);
                         } else
                         {
-                            if (cfg.verboseMode)
-                            {
-                                cfg.addToLog("ERR:" + x.sourceFile + ": " + copyError.Message);
-                            }
+                            cfg.addToLog("ERR:" + x.sourceFile + ": " + copyError.Message);
                         }
 
                     } else
                     {
-                        if (cfg.verboseMode)
-                        {
-                            cfg.addToLog("ERR:" + x.sourceFile + ": " + copyError.Message);                           
-                        }
+                        cfg.addToLog("ERR:" + x.sourceFile + ": " + copyError.Message);
                     }
                 }
                 counter += 1;
@@ -557,28 +512,6 @@ namespace yahb
                     }
                 }
             }
-            
-            /*
-
-// Initialize the shadow copy subsystem.
-using (VssBackup vss = new VssBackup())
-{
-vss.Setup(Path.GetPathRoot(x.sourceFile));
-string snap_path = vss.GetSnapshotPath(x.sourceFile);
-
-cfg.addToLog(snap_path);
-
-//string destpath = "F:\\201912232238\\c__\\Users\\user\\MyFiles\\workspace\\filelock\\foo.txt";
-string a = "F:\\" + x.destFile.timestamp + "\\" + x.destFile.fileName;
-cfg.addToLog(a);
-
-Alphaleonis.Win32.Filesystem.File.Copy(snap_path, a);
-
-//File.Copy(snap_path, x.destFile.driveTimeFilename);
-cfg.addToLog(x.sourceFile + ": copied snapshot via VSS");
-
-}*/
-
             this.cfg.addToLog("-----------------------------------------------------------------");
         }
 
@@ -639,49 +572,6 @@ cfg.addToLog(x.sourceFile + ": copied snapshot via VSS");
         string lpExistingFileName,
         IntPtr lpSecurityAttributes
         );
-
-
-        /*
-         * better: use File.Copy, check for IOException and then for ERROR_SHARING_VIOLATION
-         * 
-        private bool IsFileLocked(FileInfo file)
-        {
-            try
-            {
-                using (FileStream stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None))
-                {
-                    stream.Close();
-                }
-            }
-            catch (IOException)
-            {
-                //the file is unavailable because it is:
-                //still being written to
-                //or being processed by another thread
-                //or does not exist (has already been processed)
-                return true;
-            }
-
-            //file is not locked
-            return false;
-        } */
-
-        /*
-         * 
-         * 
-         * 
-
-        [DllImport("Kernel32.dll", CharSet = CharSet.Unicode )]
-        static extern bool CreateHardLink(
-        string lpFileName,
-        string lpExistingFileName,
-        IntPtr lpSecurityAttributes
-        );
-
-        Usage:
-
-        CreateHardLink(newLinkPath,sourcePath, IntPtr.Zero);
-        */
 
     }
 }
