@@ -62,7 +62,7 @@ Note: To use the option `/vss` you MUST run yahb with elevated rights, i.e. from
 ```
 YAHB (Yet Another Hardlink-based Backup-Tool)
 Version 1.0.0.0
-Copyright (c) 2019, Dominik Klein.
+Copyright (c) 2019 Dominik Klein
 
      Syntax:: yahb.exe <source-dir> <target-dir> [<options>]
 
@@ -108,9 +108,9 @@ OPTIONS
                               If this options is used, <source-dir> can be
                               omitted. If both <source-dir> and /id:FILENAME
                               are present, all directories will be copied.
-                              NOTE that if /s is provided, it will NOT be 
-                              applied to the list of input directories, but
-                              will be applied to <source-dir>.
+                              NOTE that if /s is provided, it will be 
+                              applied to the list of input directories, and
+                              will also be applied to <source-dir>.
 
   /list                    :: do not copy anything, just list all files
 
@@ -119,11 +119,11 @@ OPTIONS
 
   /+log:FILENAME           :: same as /log:FILENAME, but always append, i.e.
                               do not not overwrite FILENAME if it exists.
-  
+
   /pause                   :: after finishing, wait for the user to press
                               ENTER before closing the program. This
-                              prevents a command-prompt from vanishing
-                              after finishing if run e.g. by Windows' RUNAS
+                              prevents a command - prompt from vanishing
+                              after finishing if run e.g.by Windows' RUNAS
                               command
 
   /s                       :: also copy all SUBDIRECTORIES of <source-dir>
@@ -153,4 +153,3 @@ OPTIONS
                               forth. PAT can also be a file pattern like *.tmp
 
   /?                       :: display this help screen
-
