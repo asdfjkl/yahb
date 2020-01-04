@@ -53,6 +53,17 @@ namespace yahb
                     dir_stack.Push(cfg.sourceDirectory);
                 }
 
+                // add directories from file here to stack
+                // /s is used, in order to get all
+                // subdirs
+                if(cfg.copySubDirectories)
+                {
+                    foreach( string dir_i in cfg.inputDirectories)
+                    {
+                        dir_stack.Push(dir_i);
+                    }
+                }
+
                 List<string> subdirs;
                 while (dir_stack.Count > 0)
                 {
@@ -110,7 +121,12 @@ namespace yahb
                 dirs.Add(cfg.sourceDirectory);
             }
             // get directories from provided input file
-            dirs.AddRange(cfg.inputDirectories);
+            // but only if /s was not provided (otherwise)
+            // above stack operation added them incl. subdirs
+            if (!cfg.copySubDirectories)
+            {
+                dirs.AddRange(cfg.inputDirectories);
+            }
 
             // filter directories according to input given
             List<String> dirs_filtered = new List<String>();
