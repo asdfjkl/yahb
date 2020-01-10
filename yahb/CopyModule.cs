@@ -7,6 +7,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Runtime.InteropServices;
 
+
 namespace yahb
 {
     struct DestinationFile
@@ -375,14 +376,9 @@ namespace yahb
             var sourceDestFiles = this.sourceFileList.Zip(this.destFileList, (a, b) => new { sourceFile = a, destFile = b });
             int counter = 0;
             int cntAll = sourceDestFiles.Count();
-
-            int onePercent  = (int) ((float) cntAll * 100.0);
-            if(onePercent + 1 < cntAll)
-            {
-                onePercent += 1;
-            }
-            double fivePercent = Math.Round(((float)cntAll / 20.0));
+            int onePercent  = (int) ((float) cntAll / 100.0);            
             var watch = System.Diagnostics.Stopwatch.StartNew();
+            cfg.WriteProgressBar("copying files: ", "", 0);
 
             foreach (var x in sourceDestFiles)
             {
@@ -472,37 +468,33 @@ namespace yahb
                 counter += 1;
                 if (!cfg.verboseMode)
                 {
-                    if (cntAll > 500)
+                    if (counter % onePercent == 0)
                     {
-                        if (counter + 1 < cntAll && ((counter == onePercent) || (fivePercent != 0 && counter % fivePercent == 0)))
+                        int percent = (int)((((double)counter / (double)cntAll)) * 100.0);
+                        watch.Stop();
+                        long passedSecs = watch.ElapsedMilliseconds / 1000;
+                        double ratio = ((double) cntAll - (double)(counter + 1)) / (double) (counter + 1);
+                        long remSecsTotal = (long)(passedSecs * ratio);
+                        if (remSecsTotal > 10)
                         {
-                            int progress = (int)((((double)counter / (double)cntAll)) * 100.0);
-                            string strPerc = String.Format("{0:00}", progress);
-                            if (progress > 0)
-                            {
-                                watch.Stop();
-                                long passedSecs = watch.ElapsedMilliseconds / 1000;
-                                double ratio = ((double) cntAll - (double)(counter + 1)) / (double) (counter + 1);
-                                long remSecsTotal = (long)(passedSecs * ratio);
-                                if (remSecsTotal > 10)
-                                {
-                                    int remSeconds = (int) (remSecsTotal % 60);
-                                    int remMinutes = ((int) (remSecsTotal / 60)) % 60;
-                                    int remHours = (int) (remSecsTotal / (60 * 60));                                    
-                                    string strETR = String.Format("{0:00}:{1:00}:{2:00}", remHours, remMinutes, remSeconds);
-                                    cfg.addToLog("copying files: " + strPerc + "% finished, remaining: " + (cntAll - counter) + " files; ETR: " + strETR);
-                                }
-                                else
-                                {
-                                    cfg.addToLog("copying files: " + strPerc + "% finished, remaining: " + (cntAll - counter) + " files");
-                                }
-                                watch.Start();
-                            }
+                            int remSeconds = (int) (remSecsTotal % 60);
+                            int remMinutes = ((int) (remSecsTotal / 60)) % 60;
+                            int remHours = (int) (remSecsTotal / (60 * 60));                                    
+                            string strETR = String.Format(" ETR: {0:00}:{1:00}:{2:00}", remHours, remMinutes, remSeconds);
+                            cfg.WriteProgressBar("copying files:", strETR, percent, true);
+                        } else
+                        {
+                            cfg.WriteProgressBar("copying files:", "", percent, true);
                         }
+                        watch.Start();
                     }
                 }
             }
-
+            if(!cfg.verboseMode)
+            {
+                cfg.WriteProgressBar("copying files:", "                         ", 100, true);
+                cfg.addToLog("");
+            }
             cfg.addToLog("copying files: finished.");
             watch.Stop();
             TimeSpan ts = watch.Elapsed;
@@ -511,11 +503,8 @@ namespace yahb
                 ts.Milliseconds / 10);
             Console.WriteLine("Time Required: " + elapsedTime);
 
-            //cfg.addToLog("Time required: "+hours+":"+minutes+":"+seconds);
-
             if (this.cfg.useVss && tryWithVSS.Count > 0)
             {
-                // todo catch all typical exceptions
                 using (VssBackup vss = new VssBackup())
                 {
                     vss.Setup(Path.GetPathRoot(tryWithVSS[0].Item1));
@@ -523,8 +512,29 @@ namespace yahb
                     foreach(Tuple<String, DestinationFile> x in tryWithVSS)
                     {
                         string snap_path = vss.GetSnapshotPath(x.Item1);
-                        Alphaleonis.Win32.Filesystem.File.Copy(snap_path, x.Item2.driveTimeFilename);
-                        cfg.addToLog(x.Item1 + ": copied snapshot via VSS");
+                        try
+                        {
+                            Alphaleonis.Win32.Filesystem.File.Copy(snap_path, x.Item2.driveTimeFilename);
+                            cfg.addToLog(x.Item1 + ": copied snapshot via VSS");
+                        } catch (ArgumentException e)
+                        {
+                            cfg.addToLog("ERR: " + x.Item1 + ": "+e.Message);
+                        } catch (DirectoryNotFoundException e)
+                        {
+                            cfg.addToLog("ERR: " + x.Item1 + ": " + e.Message);
+                        } catch (FileNotFoundException e)
+                        {
+                            cfg.addToLog("ERR: " + x.Item1 + ": " + e.Message);
+                        } catch (IOException e)
+                        {
+                            cfg.addToLog("ERR: " + x.Item1 + ": " + e.Message);
+                        } catch (NotSupportedException e)
+                        {
+                            cfg.addToLog("ERR: " + x.Item1 + ": " + e.Message);
+                        } catch (UnauthorizedAccessException e)
+                        {
+                            cfg.addToLog("ERR: " + x.Item1 + ": " + e.Message);
+                        }
                     }
                 }
             }

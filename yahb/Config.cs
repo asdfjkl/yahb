@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 
 namespace yahb
 {
@@ -35,6 +32,8 @@ namespace yahb
 
         private int logsCached;
 
+        private const char _block = '#';
+        
         public Config()
         {
             this.sourceDirectory = "";
@@ -88,30 +87,6 @@ namespace yahb
                 }
             }
 
-            /*
-            // check if the supplied list of input filenames (if any) is valid
-            if (!string.IsNullOrEmpty(this.fnInputFiles))
-            {
-                try
-                {
-                    string[] lines = System.IO.File.ReadAllLines(this.fnInputFiles);
-                    foreach (string line in lines)
-                    {
-                        if(!System.IO.File.Exists(line))
-                        {
-                            throw new ArgumentException("error: " + line + " defined in " +
-                                this.fnInputFiles + " does not exist");
-                        }
-                        this.inputFiles.Add(line);
-                    }
-                    hasInput = true;
-                }
-                catch (Exception e)
-                {
-                    throw new ArgumentException("Error: could not load input directories from: " + this.fnInputDirectories);
-                }
-            } */
-
             // check if the supplied list of input directories (if any) is valid
             if (!string.IsNullOrEmpty(this.fnInputDirectories))
             {
@@ -151,6 +126,26 @@ namespace yahb
             {
                 this.destinationDirectory += "\\";
             }
+
+            // check if we can create hardlinks at the destination directory
+            string fn_now = DateTime.Now.ToString("yyyy'_'MM'_'dd_HH'_'mm'_'ss");
+            string fn_txt = fn_now + ".txt";
+            string fn_lnk = fn_now + ".lnk";
+            try
+            {
+                System.IO.File.WriteAllText(fn_txt, "hardlink creation test");
+            } catch(Exception e)
+            {
+                throw new ArgumentException("error: unable to create hardlinks on destination: " + e.Message);
+            }
+            if(!(CreateHardLink(fn_lnk, fn_txt, IntPtr.Zero)))
+            {
+                System.IO.File.Delete(fn_txt);
+                throw new ArgumentException("error: unable to create hardlinks on destination.");
+            }
+            System.IO.File.Delete(fn_txt);
+            System.IO.File.Delete(fn_lnk);
+
 
             if (this.useVss && !this.IsAdministrator())
             {
@@ -228,13 +223,37 @@ namespace yahb
                 Console.WriteLine(message);
             }
 
+            /*
             this.logsCached += 1;
             if(this.logsCached > 10)
             {
                 Console.Out.Flush();
                 this.logsCached = 0;
-            }
+            }*/
 
+        }
+
+        
+        public void WriteProgressBar(string pre, string post, int percent, bool update = false)
+        {
+            if (update)
+            {
+                Console.Write("\r");
+            }
+            Console.Write(pre + " [");
+            var p = (int)((percent / 10f) + .5f);
+            for (var i = 0; i < 10; ++i)
+            {
+                if (i >= p)
+                {
+                    Console.Write(' ');                    
+                }
+                else
+                {
+                    Console.Write(_block);
+                }
+            }
+            Console.Write("] {0,3:##0}% " + post, percent);
         }
 
         /*
@@ -262,6 +281,13 @@ namespace yahb
             var principal = new WindowsPrincipal(identity);
             return principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
+
+        [DllImport("Kernel32.dll", CharSet = CharSet.Unicode)]
+        static extern bool CreateHardLink(
+        string lpFileName,
+        string lpExistingFileName,
+        IntPtr lpSecurityAttributes
+        );
 
         public override string ToString()
         {
