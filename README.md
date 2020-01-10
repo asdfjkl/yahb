@@ -33,7 +33,7 @@ Moreover:
 
 ## Download
 
-The latest release is available HERE.
+The latest release is available [HERE](https://github.com/asdfjkl/yahb/releases/download/v1.0/yahb.zip).
 
 ## Installation
 
