@@ -428,10 +428,17 @@ namespace yahb
                         if (makeCopy)
                         {
                             File.Copy(x.sourceFile, x.destFile.driveTimeFilename);
-                            FileInfo fi_dest = new FileInfo(x.destFile.driveTimeFilename);
-                            fi_dest.CreationTime = fi_source.CreationTime;
-                            fi_dest.LastWriteTime = fi_source.LastWriteTime;
-                            fi_dest.LastAccessTime = fi_source.LastAccessTime;
+                            try
+                            {
+                                FileInfo fi_dest = new FileInfo(x.destFile.driveTimeFilename);
+                                fi_dest.CreationTime = fi_source.CreationTime;
+                                fi_dest.LastWriteTime = fi_source.LastWriteTime;
+                                fi_dest.LastAccessTime = fi_source.LastAccessTime;
+                            }
+                            catch(UnauthorizedAccessException unauthEx)
+                            {
+                                cfg.addToLog("ERR: " + x.sourceFile + ": couldn't change access and creation time of destiation file");
+                            }
                             if (cfg.verboseMode)
                             {
                                 cfg.addToLog(x.sourceFile + ": file copied");
@@ -468,6 +475,10 @@ namespace yahb
                 counter += 1;
                 if (!cfg.verboseMode)
                 {
+                    if(onePercent == 0)
+                    {
+                        onePercent += 1;
+                    }
                     if (counter % onePercent == 0)
                     {
                         int percent = (int)((((double)counter / (double)cntAll)) * 100.0);
