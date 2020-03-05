@@ -431,9 +431,19 @@ namespace yahb
                             try
                             {
                                 FileInfo fi_dest = new FileInfo(x.destFile.driveTimeFilename);
+                                bool wasReadOnly = false;
+                                if (fi_dest.IsReadOnly)
+                                {
+                                    fi_dest.IsReadOnly = false;
+                                    wasReadOnly = true;
+                                }
                                 fi_dest.CreationTime = fi_source.CreationTime;
                                 fi_dest.LastWriteTime = fi_source.LastWriteTime;
                                 fi_dest.LastAccessTime = fi_source.LastAccessTime;
+                                if(wasReadOnly)
+                                {
+                                    fi_dest.IsReadOnly = true;
+                                }
                             }
                             catch(UnauthorizedAccessException unauthEx)
                             {
