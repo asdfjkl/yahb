@@ -376,6 +376,10 @@ namespace yahb
             var sourceDestFiles = this.sourceFileList.Zip(this.destFileList, (a, b) => new { sourceFile = a, destFile = b });
             int counter = 0;
             int cntAll = sourceDestFiles.Count();
+            if(cntAll == 0)
+            {
+                cntAll = 1;
+            }
             int onePercent  = (int) ((float) cntAll / 100.0);            
             var watch = System.Diagnostics.Stopwatch.StartNew();
             cfg.WriteProgressBar("copying files: ", "", 0);
