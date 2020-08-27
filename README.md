@@ -59,7 +59,7 @@ Only if you want to make use of [Windows Volume Shadow Copy Service](https://en.
 Windows has a `MAX_PATH` restriction, i.e. [can't handle path names longer than 260 characters](https://docs.microsoft.com/en-us/windows/win32/fileio/naming-a-file) - a relict from old MS-DOS times. 
 Since keeps the original folder structure but in addition adds a timestamp and drive letter -- like e.g. `F:\Backup\201903021512\C__\MyFiles` it is possible to run into problems. 
 
-Unfortunately there is no easy and hassle-free workaround for this `MAX_PATH` restriction I am aware of. It is recommended to keep the maximal path length in mind and possibly shortening folder names prior to creating a backup.
+Unfortunately there is no easy and hassle-free workaround for this `MAX_PATH` restriction I am aware of. It is recommended to keep the maximal path length in mind and if required shorten folder names prior to creating a backup.
 
 ## Usage
 
