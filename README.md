@@ -54,6 +54,12 @@ If you are stll running Windows 7, download and install the latest [Microsoft NE
 
 Only if you want to make use of [Windows Volume Shadow Copy Service](https://en.wikipedia.org/wiki/Shadow_Copy) to copy files currently in use, you need to additionally install [Microsoft Visual Studio C++ 2019 Redistributable]( https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads). You need the version for 64bit systems, i.e. `vc_redist.x64.exe`. Note that it's very likely that this is already installed on your system by other programs.
 
+## Restrictions
+
+Windows has a `MAX_PATJ` restriction, i.e. [can't handle path names longer than 260 characters](https://docs.microsoft.com/en-us/windows/win32/fileio/naming-a-file) - a relict from old MS-DOS times. 
+Since keeps the original folder structure but in addition adds a timestamp and drive letter -- like e.g. `F:\Backup\201903021512\C__\MyFiles` it is possible to run into problems. 
+
+Unfortunately there is no easy and hassle-free workaround for this `MAX_PATH` restriction I am aware of. It is recommended to keep the maximal path length in mind and possibly shortening folder names prior to creating a backup.
 
 ## Usage
 
