@@ -536,6 +536,7 @@ namespace yahb
                     
                     foreach(Tuple<String, DestinationFile> x in tryWithVSS)
                     {
+                        Console.WriteLine("using vss");
                         string snap_path = vss.GetSnapshotPath(x.Item1);
                         try
                         {
