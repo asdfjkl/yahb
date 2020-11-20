@@ -41,29 +41,30 @@ Just unzip to a folder, open a command-prompt and run `yahb`.
 
 ## Requirements
 
-YAHB is currently 64 bit only, i.e. you need Windows 7 64bit, Windows 8.1 64bit or Windows 10 64bit.
+YAHB is currently 64 bit only. YAHB may run on Windows 7, 8.1, but only Windows 10 is supported.
 
 * When copying to a *locally attached drive*, the target drive MUST be NTFS-formatted. Otherwise hardlinks cannot be created.
 * When copying to a *network share*, things are more complicated. Basically the underlying file system must support hardlinks, and must expose hardlink creation in such a way, that Windows API commands can be used to create hardlinks. This is supported with i.e. SAMBA when [Unix Extensions](https://www.samba.org/samba/docs/current/man-html/smb.conf.5.html#UNIXEXTENSIONS) are enabled. Fortunately, most typical NAS solutions like Synology or QNAP suport this and work out-of-the-box.
 
-YAHB requires [Microsoft NET Framework 4.5](https://dotnet.microsoft.com/download/dotnet-framework) or higher. The following versions of Windows ship with suitable versions of NET Framwework by default, i.e. you don't need to install anything if you run:
-- Windows 8.1
-- Windows 10 (any edition/version)
+YAHB requires [Microsoft NET Framework 4.7.2](https://dotnet.microsoft.com/download/dotnet-framework) or higher. The following versions of Windows ship with suitable versions of NET Framwework by default, i.e. you don't need to install anything if you run:
+- Windows 10, version 1809 and later
 
-If you are stll running Windows 7, download and install the latest [Microsoft NET Framework](https://dotnet.microsoft.com/download/dotnet-framework) [here](https://dotnet.microsoft.com/download/dotnet-framework).
+If you are running an earlier version of Windows, download and install the latest [Microsoft NET Framework](https://dotnet.microsoft.com/download/dotnet-framework) [here](https://dotnet.microsoft.com/download/dotnet-framework).
 
 Only if you want to make use of [Windows Volume Shadow Copy Service](https://en.wikipedia.org/wiki/Shadow_Copy) to copy files currently in use, you need to additionally install [Microsoft Visual Studio C++ 2019 Redistributable]( https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads). You need the version for 64bit systems, i.e. `vc_redist.x64.exe`. Note that it's very likely that this is already installed on your system by other programs.
 
 ## Restrictions
 
-Windows has a `MAX_PATH` restriction, i.e. [can't handle path names longer than 260 characters](https://docs.microsoft.com/en-us/windows/win32/fileio/naming-a-file) - a relict from old MS-DOS times. 
+Windows via default has a `MAX_PATH` restriction, i.e. [can't handle path names longer than 260 characters](https://docs.microsoft.com/en-us/windows/win32/fileio/naming-a-file) - a relict from old MS-DOS times. 
 Since yahb keeps the original folder structure but in addition adds a timestamp and drive letter -- like e.g. `F:\Backup\201903021512\C__\MyFiles` it is possible to run into problems as the destination path is then longer than 260 characters.
 
-Unfortunately there is no easy and hassle-free workaround for this `MAX_PATH` restriction I am aware of. It is recommended to keep the maximal path length in mind and if required shorten folder names prior to creating a backup.
+There are two possible workarounds:
+ * keep the maximal path length in mind and if required shorten folder names prior to creating a backup.
+ * For YAHB version 1.0.5 or later: Windows 10, version 1607 and later are able to remove the `MAX_PATH` restriction via a registry entry. Locate `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem` and look for an entry called `LongPathsEnabled`. Change that value to `1` if it isn't already set to `1`. 
 
 ## Usage
 
-Note: To use the option `/vss` you MUST run yahb with elevated rights, i.e. from an elevated command prompt.
+Note: To use the option `/vss` you MUST run yahb with elevated rights, i.e. from an elevated command prompt (`Run as Administrator`).
 
 ```
 YAHB (Yet Another Hardlink-based Backup-Tool)
