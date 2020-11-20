@@ -60,7 +60,9 @@ Since yahb keeps the original folder structure but in addition adds a timestamp 
 
 There are two possible workarounds:
  * keep the maximal path length in mind and if required shorten folder names prior to creating a backup.
- * For YAHB version 1.0.5 or later: Windows 10, version 1607 and later are able to remove the `MAX_PATH` restriction via a registry entry. Locate `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem` and look for an entry called `LongPathsEnabled`. Change that value to `1` if it isn't already set to `1`. Note: When backing up to a network drive (i.e. SAMBA), it is unclear if such long path work in practice. Feedback is appreciated!
+ * For YAHB version 1.0.5 or later: Windows 10, version 1607 and later are able to remove the `MAX_PATH` restriction via a registry entry. Locate `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem` and look for an entry called `LongPathsEnabled`. Change that value to `1` if it isn't already set to `1`. 
+ 
+ **Note**: When backing up to a network drive (i.e. SAMBA), it is unclear if long path > 260 work in practice with YAHB 1.0.5. and the above mentioned registry entry. Feedback is appreciated!
 
 ## Usage
 
