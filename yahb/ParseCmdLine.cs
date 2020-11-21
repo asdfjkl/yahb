@@ -217,7 +217,7 @@ namespace yahb
             Console.WriteLine("  /pause                   :: after finishing, wait for the user to press");
             Console.WriteLine("                              ENTER before closing the program. This");
             Console.WriteLine("                              prevents a command - prompt from vanishing");
-            Console.WriteLine("                              after finishing if run e.g.by Windows' RUNAS");
+            Console.WriteLine("                              after finishing if run e.g. by Windows' RUNAS");
             Console.WriteLine("                              command");
             Console.WriteLine("");
             Console.WriteLine("  /s                       :: also copy all SUBDIRECTORIES of <source-dir>");
