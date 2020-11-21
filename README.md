@@ -132,7 +132,7 @@ OPTIONS
   /pause                   :: after finishing, wait for the user to press
                               ENTER before closing the program. This
                               prevents a command - prompt from vanishing
-                              after finishing if run e.g.by Windows' RUNAS
+                              after finishing if run e.g. by Windows' RUNAS
                               command
 
   /s                       :: also copy all SUBDIRECTORIES of <source-dir>
