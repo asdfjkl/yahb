@@ -55,8 +55,8 @@ Only if you want to make use of [Windows Volume Shadow Copy Service](https://en.
 
 ## Restrictions
 
-Windows via default has a `MAX_PATH` restriction, i.e. [can't handle path names longer than 260 characters](https://docs.microsoft.com/en-us/windows/win32/fileio/naming-a-file) - a relict from old MS-DOS times. 
-Since yahb keeps the original folder structure but in addition adds a timestamp and drive letter -- like e.g. `F:\Backup\201903021512\C__\MyFiles` it is possible to run into problems as the destination path is then longer than 260 characters.
+Windows via default has a `MAX_PATH` restriction, i.e. [can't handle path names longer than 260 characters](https://docs.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation) - a relict from old MS-DOS times. 
+Since YAHB keeps the original folder structure but in addition adds a timestamp and drive letter -- like e.g. `F:\Backup\201903021512\C__\MyFiles` it is possible to run into problems as the destination path is then longer than 260 characters.
 
 There are two possible workarounds:
  * keep the maximal path length in mind and if required shorten folder names prior to creating a backup.
@@ -66,7 +66,7 @@ There are two possible workarounds:
 
 ## Usage
 
-Note: To use the option `/vss` you MUST run yahb with elevated rights, i.e. from an elevated command prompt (`Run as Administrator`).
+Note: To use the option `/vss` you MUST run YAHB with elevated rights, i.e. from an elevated command prompt (`Run as Administrator`).
 
 ```
 YAHB (Yet Another Hardlink-based Backup-Tool)
