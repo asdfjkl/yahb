@@ -431,9 +431,9 @@ namespace yahb
                     {
                         if (makeCopy)
                         {
-                            File.Copy(x.sourceFile, x.destFile.driveTimeFilename);
                             try
                             {
+                                File.Copy(x.sourceFile, x.destFile.driveTimeFilename);
                                 FileInfo fi_dest = new FileInfo(x.destFile.driveTimeFilename);
                                 bool wasReadOnly = false;
                                 if (fi_dest.IsReadOnly)
@@ -444,18 +444,34 @@ namespace yahb
                                 fi_dest.CreationTime = fi_source.CreationTime;
                                 fi_dest.LastWriteTime = fi_source.LastWriteTime;
                                 fi_dest.LastAccessTime = fi_source.LastAccessTime;
-                                if(wasReadOnly)
+                                if (wasReadOnly)
                                 {
                                     fi_dest.IsReadOnly = true;
+                                }
+                                if (cfg.verboseMode)
+                                {
+                                    cfg.addToLog(x.sourceFile + ": file copied");
                                 }
                             }
                             catch(UnauthorizedAccessException unauthEx)
                             {
-                                cfg.addToLog("ERR: " + x.sourceFile + ": couldn't change access and creation time of destiation file");
+                                cfg.addToLog("ERR: " + x.sourceFile + ": couldn't access file and/or set creation time of destination file");
                             }
-                            if (cfg.verboseMode)
+                            catch (ArgumentException e)
                             {
-                                cfg.addToLog(x.sourceFile + ": file copied");
+                                cfg.addToLog("ERR: " + x.sourceFile + ": argument exception");
+                            }                            
+                            catch (PathTooLongException e)
+                            {
+                                cfg.addToLog("ERR: " + x.sourceFile + ": path too long exception");
+                            }
+                            catch (DirectoryNotFoundException e)
+                            {
+                                cfg.addToLog("ERR: " + x.sourceFile + ": directory not found exception");
+                            }
+                            catch (FileNotFoundException e)
+                            {
+                                cfg.addToLog("ERR: " + x.sourceFile + ": file not found exception");
                             }
                         }
                     } else
