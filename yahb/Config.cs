@@ -81,6 +81,8 @@ namespace yahb
                 if(System.IO.Directory.Exists(this.sourceDirectory))
                 {
                     hasInput = true;
+                    // create full path from relative path
+                    this.sourceDirectory = System.IO.Path.GetFullPath(this.sourceDirectory);
                 } else
                 {
                     throw new ArgumentException("error: " + this.sourceDirectory + " is not a valid directory");
@@ -100,7 +102,9 @@ namespace yahb
                             throw new ArgumentException("error: " + line + " defined in " + 
                                 this.fnInputDirectories + " is not a valid directory");
                         }
-                        this.inputDirectories.Add(line);
+                        // create full path from relative path
+                        String absLine = System.IO.Path.GetFullPath(line);
+                        this.inputDirectories.Add(absLine);
                     }
                     hasInput = true;
                 }
@@ -121,6 +125,9 @@ namespace yahb
                 throw new ArgumentException("error: no valid output directory defined or directory " +
                     "does not exist");
             }
+
+            // create full path from relative path
+            this.destinationDirectory = System.IO.Path.GetFullPath(this.destinationDirectory);
 
             if (this.destinationDirectory.EndsWith(":"))
             {

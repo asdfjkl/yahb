@@ -393,11 +393,14 @@ namespace yahb
                     if (foundLastDir) {
                         // first check if file exists in old backup
                         string oldFn = Path.Combine(x.destFile.destDrive, lastBackupDirectory, x.destFile.fileName);
+                        //Console.WriteLine("old file name: " + oldFn);
+                        //Console.WriteLine("backup name: " + fi_source.FullName);
                         //Console.WriteLine("checking if: " + oldFn + " exists...");
                         FileInfo fi_backup = new FileInfo(oldFn);
                         if (fi_backup.Exists)
                         {
-                            if(fi_source.CreationTimeUtc == fi_backup.CreationTimeUtc &&
+                            //Console.WriteLine("found file " + x.sourceFile + " in backup folder, checking similarity");
+                            if (fi_source.CreationTimeUtc == fi_backup.CreationTimeUtc &&
                                 fi_source.LastWriteTimeUtc == fi_backup.LastWriteTimeUtc &&
                                 fi_source.Length == fi_backup.Length)
                             {
@@ -433,6 +436,8 @@ namespace yahb
                         {
                             try
                             {
+                                //Console.WriteLine("source filename: " + x.sourceFile);
+                                //Console.WriteLine("copying to: " + x.destFile.driveTimeFilename);
                                 File.Copy(x.sourceFile, x.destFile.driveTimeFilename);
                                 FileInfo fi_dest = new FileInfo(x.destFile.driveTimeFilename);
                                 bool wasReadOnly = false;
@@ -552,7 +557,7 @@ namespace yahb
                     
                     foreach(Tuple<String, DestinationFile> x in tryWithVSS)
                     {
-                        Console.WriteLine("using vss");
+                        //Console.WriteLine("using vss");
                         string snap_path = vss.GetSnapshotPath(x.Item1);
                         try
                         {
