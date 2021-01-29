@@ -258,12 +258,12 @@ namespace yahb
             cfg.addToLog("creating list of files ... DONE");
         }
 
-        public string getLastDir(string destDirectory)
+        public Tuple<string, string> getLastDir(string destDirectory)
         {
             try
             {
                 string[] dirs = System.IO.Directory.GetDirectories(destDirectory);
-                List<string> numberDirs = new List<string>();
+                List<Tuple<string,string>> numberDirs = new List<Tuple<string,string>>();
                 foreach (string dir_i in dirs)
                 {
                     DirectoryInfo f = new DirectoryInfo(dir_i);
@@ -275,7 +275,8 @@ namespace yahb
 
                     if(this.IsDigitsOnly(dir_i_wo_drive))
                     {
-                        numberDirs.Add(dir_i);
+                        //Console.WriteLine("dir_i_wo_drive: " + dir_i_wo_drive);
+                        numberDirs.Add(new Tuple<string,string>(dir_i, dir_i_wo_drive));
                     }
                 }
                 numberDirs.Sort();
@@ -314,9 +315,12 @@ namespace yahb
 
             bool foundLastDir = false;
             string lastBackupDirectory = "";
+            string lastTimestamp = "";
             try
             {
-                lastBackupDirectory = this.getLastDir(cfg.destinationDirectory);
+                Tuple<string,string> tpl = this.getLastDir(cfg.destinationDirectory);
+                lastBackupDirectory = tpl.Item1;
+                lastTimestamp = tpl.Item2;
                 this.cfg.addToLog("identified last backup directory: " + lastBackupDirectory);
                 foundLastDir = true;
             } catch (ArgumentException e)
@@ -371,7 +375,15 @@ namespace yahb
                 }
             }
 
-                      
+            //Console.WriteLine("now " + this.now);
+            //Console.WriteLine("now eq backup: " + (this.now == lastTimestamp));
+            if (this.now == lastTimestamp)
+            {
+                this.cfg.addToLog("ERR: Backup folder " + this.now + " already exists. Aborting.");
+                this.cfg.addToLog("-----------------------------------------------------------------");
+                return;
+            }
+
             // copy all files
             var sourceDestFiles = this.sourceFileList.Zip(this.destFileList, (a, b) => new { sourceFile = a, destFile = b });
             int counter = 0;
