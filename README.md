@@ -70,8 +70,8 @@ Note: To use the option `/vss` you MUST run YAHB with elevated rights, i.e. from
 
 ```
 YAHB (Yet Another Hardlink-based Backup-Tool)
-Version 1.0.6.0
-Copyright (c) 2019, 2020 Dominik Klein
+Version 1.0.7.0
+Copyright (c) 2019 - 2021 Dominik Klein
 
      Syntax:: yahb.exe <source-dir> <target-dir> [<options>]
 
