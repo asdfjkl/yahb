@@ -155,7 +155,7 @@ namespace yahb
             FileVersionInfo version =
                        Process.GetCurrentProcess().MainModule.FileVersionInfo;
             Console.WriteLine("Version " + version.FileVersion);
-            Console.WriteLine("Copyright (c) 2019 - 2021 Dominik Klein");
+            Console.WriteLine("Copyright (c) 2019 - 2024 Dominik Klein");
             Console.WriteLine("");
             Console.WriteLine("     Syntax:: yahb.exe <source-dir> <target-dir> [<options>]");
             Console.WriteLine("");
