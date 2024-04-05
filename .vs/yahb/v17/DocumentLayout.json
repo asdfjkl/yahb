@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "D:\\MyFiles\\workspace\\yahb\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{3E02D729-0EF0-447C-9849-E5237F3D8B60}|yahb\\yahb.csproj|d:\\myfiles\\workspace\\yahb\\yahb\\copymodule.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{3E02D729-0EF0-447C-9849-E5237F3D8B60}|yahb\\yahb.csproj|d:\\myfiles\\workspace\\yahb\\yahb\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3E02D729-0EF0-447C-9849-E5237F3D8B60}|yahb\\yahb.csproj|solutionrelative:yahb\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3E02D729-0EF0-447C-9849-E5237F3D8B60}|yahb\\yahb.csproj|D:\\MyFiles\\workspace\\yahb\\yahb\\copymodule.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3E02D729-0EF0-447C-9849-E5237F3D8B60}|yahb\\yahb.csproj|solutionrelative:yahb\\copymodule.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3E02D729-0EF0-447C-9849-E5237F3D8B60}|yahb\\yahb.csproj|d:\\myfiles\\workspace\\yahb\\yahb\\config.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{3E02D729-0EF0-447C-9849-E5237F3D8B60}|yahb\\yahb.csproj|D:\\MyFiles\\workspace\\yahb\\yahb\\config.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3E02D729-0EF0-447C-9849-E5237F3D8B60}|yahb\\yahb.csproj|solutionrelative:yahb\\config.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3E02D729-0EF0-447C-9849-E5237F3D8B60}|yahb\\yahb.csproj|d:\\myfiles\\workspace\\yahb\\yahb\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3E02D729-0EF0-447C-9849-E5237F3D8B60}|yahb\\yahb.csproj|solutionrelative:yahb\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,24 +22,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\MyFiles\\workspace\\yahb\\yahb\\Program.cs",
               "RelativeDocumentMoniker": "yahb\\Program.cs",
               "ToolTip": "D:\\MyFiles\\workspace\\yahb\\yahb\\Program.cs",
               "RelativeToolTip": "yahb\\Program.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAYAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAARAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-05T08:24:05.778Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Config.cs",
               "DocumentMoniker": "D:\\MyFiles\\workspace\\yahb\\yahb\\Config.cs",
               "RelativeDocumentMoniker": "yahb\\Config.cs",
@@ -47,21 +47,19 @@
               "RelativeToolTip": "yahb\\Config.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAqwAcAAAAQAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-05T08:24:04.006Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-05T08:24:04.006Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "CopyModule.cs",
               "DocumentMoniker": "D:\\MyFiles\\workspace\\yahb\\yahb\\CopyModule.cs",
               "RelativeDocumentMoniker": "yahb\\CopyModule.cs",
               "ToolTip": "D:\\MyFiles\\workspace\\yahb\\yahb\\CopyModule.cs",
               "RelativeToolTip": "yahb\\CopyModule.cs",
-              "ViewState": "AQIAAPYBAAAAAAAAAAAIwPQBAAAQAAAA",
+              "ViewState": "AQIAABgCAAAAAAAAAAAAAAUCAAAaAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-05T07:50:09.195Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-05T07:50:09.195Z"
             }
           ]
         }
