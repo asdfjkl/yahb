@@ -1,0 +1,10 @@
+C:\Users\user\MyFiles\workspace\yahb\yahb\bin\Release\yahb.exe.config
+C:\Users\user\MyFiles\workspace\yahb\yahb\bin\Release\yahb.exe
+C:\Users\user\MyFiles\workspace\yahb\yahb\bin\Release\yahb.pdb
+C:\Users\user\MyFiles\workspace\yahb\yahb\obj\Release\yahb.csprojAssemblyReference.cache
+C:\Users\user\MyFiles\workspace\yahb\yahb\obj\Release\yahb.exe
+C:\Users\user\MyFiles\workspace\yahb\yahb\obj\Release\yahb.pdb
+C:\Users\user\MyFiles\workspace\yahb\yahb\bin\Release\AlphaVSS.Common.dll
+C:\Users\user\MyFiles\workspace\yahb\yahb\bin\Release\AlphaVSS.Common.pdb
+C:\Users\user\MyFiles\workspace\yahb\yahb\bin\Release\AlphaVSS.Common.xml
+C:\Users\user\MyFiles\workspace\yahb\yahb\obj\Release\yahb.csproj.CopyComplete

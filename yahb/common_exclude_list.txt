@@ -1,0 +1,10 @@
+hiberfil.sys
+pagefile.sys
+$Recycle.Bin
+swapfile.sys
+System Volume Information
+*.~
+*.tmp
+AppData\Local\Temp
+AppData\Local\Microsoft\Windows\INetCache
+C:\Windows

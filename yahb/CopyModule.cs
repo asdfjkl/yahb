@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Runtime.InteropServices;
+using System.Data.Common;
 
 
 namespace yahb
@@ -470,14 +471,14 @@ namespace yahb
                                     cfg.addToLog(x.sourceFile + ": file copied");
                                 }
                             }
-                            catch(UnauthorizedAccessException unauthEx)
+                            catch (UnauthorizedAccessException unauthEx)
                             {
                                 cfg.addToLog("ERR: " + x.sourceFile + ": couldn't access file and/or set creation time of destination file");
                             }
                             catch (ArgumentException e)
                             {
                                 cfg.addToLog("ERR: " + x.sourceFile + ": argument exception");
-                            }                            
+                            }
                             catch (PathTooLongException e)
                             {
                                 cfg.addToLog("ERR: " + x.sourceFile + ": path too long exception");
@@ -501,7 +502,7 @@ namespace yahb
                 }
                 catch (IOException copyError)
                 {
-                    if(cfg.useVss)
+                    if (cfg.useVss)
                     {
                         int errorCode = Marshal.GetHRForException(copyError) & ((1 << 16) - 1);
                         if (errorCode == ERROR_SHARING_VIOLATION || errorCode == ERROR_LOCK_VIOLATION)
@@ -518,6 +519,14 @@ namespace yahb
                     {
                         cfg.addToLog("ERR:" + x.sourceFile + ": " + copyError.Message);
                     }
+                }
+                catch(PlatformNotSupportedException e)
+                {
+                    cfg.addToLog("ERR:" + x.sourceFile + ": " + e.Message);
+                }
+                catch (ArgumentOutOfRangeException e)
+                {
+                    cfg.addToLog("ERR:" + x.sourceFile + ": " + e.Message);
                 }
                 counter += 1;
                 if (!cfg.verboseMode)
@@ -578,7 +587,8 @@ namespace yahb
                         } catch (ArgumentException e)
                         {
                             cfg.addToLog("ERR: " + x.Item1 + ": "+e.Message);
-                        } catch (DirectoryNotFoundException e)
+                        } 
+                        catch (DirectoryNotFoundException e)
                         {
                             cfg.addToLog("ERR: " + x.Item1 + ": " + e.Message);
                         } catch (FileNotFoundException e)

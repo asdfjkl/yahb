@@ -1,0 +1,52 @@
+yahb c:\yahb_test f: /copyall /s
+1:1 Kopie erstellt, aber nur mit : als pfad
+
+yahb c:\yahb_test f:\backup_directory /copyall /s
+1:1 Kopie erstellt
+
+yahb c:\yahb_test f:\backup_directory /copyall /s /files:*.exe;*.txt;*.sys
+Alle Dateien mit Endungen werden kopiert
+
+yahb c:\yahb_test f:\backup_directory /s /files:*.exe;*.txt;*.sys
+typische temp files/dirs sollten fehlen
+
+yahb c:\yahb_test f:\backup_directory /s /files:*.exe;*.txt;*.sys /list
+nur liste, nichts sollte kopiert werden
+
+yahb c:\yahb_test f:\backup_directory /s /files:*.exe;*.txt;*.sys /log:log.txt
+sys sollten fehlen, nicht im log vorkommen
+
+yahb c:\yahb_test f:\backup_directory /s /files:*.exe;*.txt;*.sys /log:log.txt /verbose
+sys sollten fehlen, sollte im log vorkommen, kein output
+
+yahb c:\yahb_test f:\backup_directory /s /files:*.exe;*.txt;*.sys /+log:log.txt /verbose
+altes log sollte appended werden, kein output
+
+yahb c:\yahb_test f:\backup_directory /s /log:log.txt /vss /tee
+mit admin rights: logging, output in konsole, gelocktes file foo.txt sollte kopiert werden über vss
+
+yahb c:\yahb_test f:\backup_directory /s /log:log.txt /vss /tee
+ohne admin rights: abbruch
+FEHLER (admin right detection funktioniert nicht!)
+
+yahb c:\yahb_test f:\backup_directory /s /xd:C:\yahb_test\rec;C:\yahb_test\test
+verzeichnisse sollten ausgelassen werden
+
+yahb c:\yahb_test f:\backup_directory /s /id:C:\yahb_test\dirs.txt
+input dirs
+C:\yahb_test\rec
+c:\yahb_test\foobar (error)
+C:\yahb_test\AppData
+(program quits expectedly)
+
+yahb f:\backup_directory /s /id:C:\yahb_test\dirs.txt
+input dirs
+C:\yahb_test\rec
+C:\yahb_test\AppData
+
+yahb c:\yahb_test f:\backup_directory /s /xf:*.exe;*.cs
+ignoriere alle .exe, alle .cs
+
+
+yahb c:\yahb_test f:\backup_directory /s /files:*.exe;*.txt;*.sys /+log:log.txt /verbose /?
+sollte nichts passieren, nur help
