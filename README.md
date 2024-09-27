@@ -2,6 +2,14 @@
 
 YAHB is a deduplicating file copy tool, intended for backup use. Deduplication works on the file-level with NTFS [hardlinks](https://en.wikipedia.org/wiki/Hard_link).
 
+## Download & Installation
+
+The latest release is available [HERE](https://github.com/asdfjkl/yahb/releases).
+
+YAHB is also available via [winget](https://en.wikipedia.org/wiki/Windows_Package_Manager). Simply open a command prompt and run
+
+    winget install asdfjkl.YAHB
+
 ## Example 
 
 Consider the following scenario: Your have a folder
@@ -30,10 +38,6 @@ Moreover:
 * If at some point, you decide to delete the folder `F:\Backup\201903011512` (but keep `F:\Backup\201903021512`), NTFS will detect that there is a hardlink pointing to `movie.avi`. It will delete the folder, but keep `movie.avi` on the disk. Same for the other way round.
 * You always have a 1:1 copy of your current files at hand. In case of a desaster, there is no proprietary backup format to extract from, re-order your file structure etc. In the above example, just copy the latest version of `MyFiles` back, and all your data are there - maximum recoverability.
 * If a file is currently locked (i.e. opened for read/write), YAHB supports to still create a copy of that file using [Windows Volume Shadow Copy Service](https://en.wikipedia.org/wiki/Shadow_Copy). This is useful, if you want to create a backup in the background while working with the computer, i.e. creating backups of documents while you have them still open in Word/[LibreOffice](https://www.libreoffice.org), or creating a backup of your Thunderbird or Firefox [Profile folder](https://www.howtogeek.com/255587/how-to-find-your-firefox-profile-folder-on-windows-mac-and-linux/), while still writing mails or browsing the web.
-
-## Download
-
-The latest release is available [HERE](https://github.com/asdfjkl/yahb/releases).
 
 ## Installation
 
