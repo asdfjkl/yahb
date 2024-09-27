@@ -24,58 +24,18 @@ namespace yahb {
             {
                 // Create an array of all possible command-line parameters
                 // and how to parse them.
-                object[,] mySwitches = new object[2, 15] {
-                 {"s", "copyall" , "id", "pause", 
+                object[,] mySwitches = new object[2, 17] {
+                 {      "source", "target", "s", "copyall" , "config", "pause", 
                         "xf", "xd", "list", "verbose", 
                         "log", "+log", "tee", "?", 
                         "files", "vss", "help"},
-                 {ArgType.SimpleSwitch, ArgType.SimpleSwitch, ArgType.Compound, ArgType.SimpleSwitch,
+                 {      ArgType.Complex, ArgType.Compound, ArgType.SimpleSwitch, ArgType.SimpleSwitch, ArgType.Compound, ArgType.SimpleSwitch,
                         ArgType.Complex, ArgType.Complex, ArgType.SimpleSwitch, ArgType.SimpleSwitch, 
                         ArgType.Compound, ArgType.Compound, ArgType.SimpleSwitch, ArgType.SimpleSwitch, 
                         ArgType.Complex, ArgType.SimpleSwitch, ArgType.SimpleSwitch}};
 
                 for (int counter = 0; counter < args.Length; counter++)
                 {
-                    if (counter == 0)
-                    {
-                        if (!args[counter].StartsWith("/"))
-                        {
-                            // should be the input directory. Check validity later
-                            cfg.sourceDirectory = args[counter];
-                        } else
-                        {
-                            // cannot be - even when omitting the source directory
-                            // we need at least the destination directory in arg[0]
-                            // only exception: user requested /help or /?
-                            if (args[counter].Equals("/help") || args[counter].Equals("/?"))
-                            {
-                                // todo: show help and exit
-                            } else
-                            {
-                                throw (new ArgumentException(
-                                          "Cmd-Line parameter error: " + args[counter] +
-                                          "is a parameter, but a directory is expected.")
-                                    );
-                            }
-                        }
-                    }
-
-                    if (counter == 1)
-                    {
-                        if (!args[counter].StartsWith("/"))
-                        {
-                            cfg.destinationDirectory = args[counter];
-                        } else
-                        {
-                            // this is a parameter, i.e. /foo. If so, there is only the chance,
-                            // that the first passed argument was the destination
-                            // directory, and we have the /if or /id option
-                            // then change first arg to destination dir
-                            cfg.destinationDirectory = args[0];
-                            cfg.sourceDirectory = "";
-                        }
-                    }
-
                     if (args[counter].StartsWith("/"))
                     {
                         args[counter] = args[counter].TrimStart(new char[1] { '/' });
@@ -118,6 +78,17 @@ namespace yahb {
                                 // command-line parameter.
                                 switch ((string)mySwitches[0, index])
                                 {
+                                    case "source":
+                                        foreach (string inputDir in theArguments)
+                                        {
+                                            cfg.inputDirectories.Add(inputDir);
+                                        }
+                                        break;
+
+                                    case "target:":
+                                        cfg.destinationDirectory = theArgument;
+                                        break;
+
                                     case "s":
                                         cfg.copySubDirectories = true;
                                         break;
@@ -126,8 +97,8 @@ namespace yahb {
                                         cfg.maxLvel = System.Int32.Parse(theArgument);
                                         break;
 
-                                    case "id":                                        
-                                        cfg.fnInputDirectories = theArgument;
+                                    case "config":
+                                        cfg.configDirectory = theArgument;
                                         break;
 
                                     case "vss":

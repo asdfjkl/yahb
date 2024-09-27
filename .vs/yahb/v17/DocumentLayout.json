@@ -3,16 +3,20 @@
   "WorkspaceRootPath": "D:\\MyFiles\\workspace\\yahb\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{3E02D729-0EF0-447C-9849-E5237F3D8B60}|yahb\\yahb.csproj|d:\\myfiles\\workspace\\yahb\\yahb\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{3E02D729-0EF0-447C-9849-E5237F3D8B60}|yahb\\yahb.csproj|D:\\MyFiles\\workspace\\yahb\\yahb\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3E02D729-0EF0-447C-9849-E5237F3D8B60}|yahb\\yahb.csproj|solutionrelative:yahb\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3E02D729-0EF0-447C-9849-E5237F3D8B60}|yahb\\yahb.csproj|D:\\MyFiles\\workspace\\yahb\\yahb\\copymodule.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3E02D729-0EF0-447C-9849-E5237F3D8B60}|yahb\\yahb.csproj|solutionrelative:yahb\\copymodule.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3E02D729-0EF0-447C-9849-E5237F3D8B60}|yahb\\yahb.csproj|D:\\MyFiles\\workspace\\yahb\\yahb\\config.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3E02D729-0EF0-447C-9849-E5237F3D8B60}|yahb\\yahb.csproj|solutionrelative:yahb\\config.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3E02D729-0EF0-447C-9849-E5237F3D8B60}|yahb\\yahb.csproj|d:\\myfiles\\workspace\\yahb\\yahb\\copymodule.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3E02D729-0EF0-447C-9849-E5237F3D8B60}|yahb\\yahb.csproj|solutionrelative:yahb\\copymodule.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3E02D729-0EF0-447C-9849-E5237F3D8B60}|yahb\\yahb.csproj|D:\\MyFiles\\workspace\\yahb\\yahb\\parsecmdline.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3E02D729-0EF0-447C-9849-E5237F3D8B60}|yahb\\yahb.csproj|solutionrelative:yahb\\parsecmdline.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,8 +26,20 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ParseCmdLine.cs",
+              "DocumentMoniker": "D:\\MyFiles\\workspace\\yahb\\yahb\\ParseCmdLine.cs",
+              "RelativeDocumentMoniker": "yahb\\ParseCmdLine.cs",
+              "ToolTip": "D:\\MyFiles\\workspace\\yahb\\yahb\\ParseCmdLine.cs",
+              "RelativeToolTip": "yahb\\ParseCmdLine.cs",
+              "ViewState": "AQIAAFsAAAAAAAAAAAAqwG8AAAAdAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-05T20:12:53.281Z"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -32,34 +48,36 @@
               "RelativeDocumentMoniker": "yahb\\Program.cs",
               "ToolTip": "D:\\MyFiles\\workspace\\yahb\\yahb\\Program.cs",
               "RelativeToolTip": "yahb\\Program.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAARAAAA",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAAAFUAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-05T08:24:05.778Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Config.cs",
               "DocumentMoniker": "D:\\MyFiles\\workspace\\yahb\\yahb\\Config.cs",
               "RelativeDocumentMoniker": "yahb\\Config.cs",
               "ToolTip": "D:\\MyFiles\\workspace\\yahb\\yahb\\Config.cs",
               "RelativeToolTip": "yahb\\Config.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAqwAcAAAAQAAAA",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-05T08:24:04.006Z"
+              "WhenOpened": "2024-04-05T08:24:04.006Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "CopyModule.cs",
               "DocumentMoniker": "D:\\MyFiles\\workspace\\yahb\\yahb\\CopyModule.cs",
               "RelativeDocumentMoniker": "yahb\\CopyModule.cs",
               "ToolTip": "D:\\MyFiles\\workspace\\yahb\\yahb\\CopyModule.cs",
               "RelativeToolTip": "yahb\\CopyModule.cs",
-              "ViewState": "AQIAABgCAAAAAAAAAAAAAAUCAAAaAAAA",
+              "ViewState": "AgIAABAAAAAAAAAAAAAAAOcBAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-05T07:50:09.195Z"
+              "WhenOpened": "2024-04-05T07:50:09.195Z",
+              "EditorCaption": ""
             }
           ]
         }

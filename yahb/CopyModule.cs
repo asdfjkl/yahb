@@ -98,9 +98,9 @@ namespace yahb
                             }
                         }
                     }
-                    catch (UnauthorizedAccessException e)
+                    catch (ArgumentException e)
                     {
-                        cfg.addToLog("ERR:" + currentDir + ":" + e.Message);                        
+                        cfg.addToLog("ERR:" + currentDir + ":" + e.Message);
                         continue;
                     }
                     catch (DirectoryNotFoundException e)
@@ -108,9 +108,19 @@ namespace yahb
                         cfg.addToLog("ERR:" + currentDir + ":" + e.Message);
                         continue;
                     }
-                    catch (PathTooLongException e)
+                    catch (IOException e)
                     {
                         cfg.addToLog("ERR:" + currentDir + ":" + e.Message);
+                        continue;
+                    }
+                    catch (System.Security.SecurityException e)
+                    {
+                        cfg.addToLog("ERR:" + currentDir + ":" + e.Message);
+                        continue;
+                    }
+                    catch (UnauthorizedAccessException e)
+                    {
+                        cfg.addToLog("ERR:" + currentDir + ":" + e.Message);                        
                         continue;
                     }
                     foreach (string str in subdirs)

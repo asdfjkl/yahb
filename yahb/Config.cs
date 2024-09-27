@@ -11,7 +11,7 @@ namespace yahb
         public string destinationDirectory;
         public bool copySubDirectories;
         public int maxLvel;
-        public string fnInputDirectories;
+        public string configDirectory;
         public List<String> inputDirectories;
         public bool useVss;
         public List<String> filePatternsToIgnore;
