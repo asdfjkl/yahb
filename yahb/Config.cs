@@ -11,8 +11,6 @@ namespace yahb
         public string destinationDirectory;
         public bool copySubDirectories;
         public int maxLvel;
-        public string configDirectory;
-        public List<String> inputDirectories;
         public bool useVss;
         public List<String> filePatternsToIgnore;
         public List<String> directoriesToIgnore;
@@ -30,7 +28,7 @@ namespace yahb
         public List<String> commonDirsToIgnore;
         public List<String> commonFilePatternsToIgnore;
 
-        private int logsCached;
+        //private int logsCached;
 
         private const char _block = '#';
         
@@ -40,8 +38,6 @@ namespace yahb
             this.destinationDirectory = "";
             this.copySubDirectories = false;
             this.maxLvel = 2147483647; // max 32 int value, should be enough
-            this.fnInputDirectories = "";
-            this.inputDirectories = new List<String>();
             this.useVss = false;
             this.filePatternsToIgnore = new List<String>();
             this.directoriesToIgnore = new List<String>();
@@ -68,64 +64,24 @@ namespace yahb
             commonFilePatternsToIgnore.Add("*.~");
             commonFilePatternsToIgnore.Add("*.tmp");
 
-            this.logsCached = 0;
+            //this.logsCached = 0;
         }
 
         public void checkConsistency()
         {
-            // check if we have either an input directory, or supplied file names via /if or /id
-            // with valid directory or file lists
-            bool hasInput = false;
-            if(!string.IsNullOrEmpty(this.sourceDirectory))
+            // check if we have a valid source directory
+            if(!string.IsNullOrEmpty(this.sourceDirectory) || !System.IO.Directory.Exists(this.sourceDirectory))
             {
-                if(System.IO.Directory.Exists(this.sourceDirectory))
-                {
-                    hasInput = true;
-                    // create full path from relative path
-                    this.sourceDirectory = System.IO.Path.GetFullPath(this.sourceDirectory);
-                } else
-                {
-                    throw new ArgumentException("error: " + this.sourceDirectory + " is not a valid directory");
-                }
+                throw new ArgumentException("error: no valid source directory defined or directory does not exist");
             }
-
-            // check if the supplied list of input directories (if any) is valid
-            if (!string.IsNullOrEmpty(this.fnInputDirectories))
-            {
-                try
-                {
-                    string[] lines = System.IO.File.ReadAllLines(this.fnInputDirectories);
-                    foreach (string line in lines)
-                    {
-                        if(!System.IO.Directory.Exists(line))
-                        {
-                            throw new ArgumentException("error: " + line + " defined in " + 
-                                this.fnInputDirectories + " is not a valid directory");
-                        }
-                        // create full path from relative path
-                        String absLine = System.IO.Path.GetFullPath(line);
-                        this.inputDirectories.Add(absLine);
-                    }
-                    hasInput = true;
-                }
-                catch (Exception e)
-                {
-                    throw new ArgumentException("Error: could not load input directories from: " + this.fnInputDirectories + " "+e.Message);
-                }
-            }
-
-            if(!hasInput)
-            {
-                throw new ArgumentException("error: no valid input directory defined, and no valid " +
-                    "directory list supplied via /id");
-            }
+            // create full path from relative path
+            this.sourceDirectory = System.IO.Path.GetFullPath(this.sourceDirectory);
 
             // check if we have a valid destination directory
             if(string.IsNullOrEmpty(this.destinationDirectory) || !System.IO.Directory.Exists(this.destinationDirectory))  {
                 throw new ArgumentException("error: no valid output directory defined or directory " +
                     "does not exist");
             }
-
             // create full path from relative path
             this.destinationDirectory = System.IO.Path.GetFullPath(this.destinationDirectory);
 
@@ -263,25 +219,6 @@ namespace yahb
             Console.Write("] {0,3:##0}% " + post, percent);
         }
 
-        /*
-        private bool IsAdmin
-        {
-            get
-            {
-                WindowsIdentity identity = WindowsIdentity.GetCurrent();
-                if (identity != null)
-                {
-                    WindowsPrincipal principal = new WindowsPrincipal(identity);
-                    List<Claim> list = new List<Claim>(principal.UserClaims);
-                    Claim c = list.Find(p => p.Value.Contains("S-1-5-32-544"));
-                    this.addToLog("seems to be admin!");
-                    if (c != null)
-                        return true;
-                }
-                return false;
-            }
-        }*/
-
         public bool IsAdministrator()
         {
             var identity = WindowsIdentity.GetCurrent();
@@ -304,7 +241,6 @@ namespace yahb
             currentCfg += "file endings.........: " + String.Join(", ", this.fileEndings) + "\n";
             currentCfg += "copy sub dirs........: " + this.copySubDirectories + "\n";
             currentCfg += "max dir level........: " + this.maxLvel + "\n";
-            currentCfg += "input dirs list......: " + String.Join(", ", this.inputDirectories) + "\n";
             currentCfg += "use vss..............: " + this.useVss + "\n";
             currentCfg += "ignore patterns......: " + String.Join(", ", this.filePatternsToIgnore) + "\n";
             currentCfg += "ignore dirs..........: " + String.Join(", ", this.directoriesToIgnore) + "\n";
