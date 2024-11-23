@@ -122,15 +122,6 @@ OPTIONS
 
   /help                    :: display this help screen
 
-  /id:FILENAME             :: supply a list of Input Directories to copy which
-                              are stored line by line in a textfile FILENAME.
-                              If this options is used, <source-dir> can be
-                              omitted. If both <source-dir> and /id:FILENAME
-                              are present, all directories will be copied.
-                              NOTE that if /s is provided, it will be 
-                              applied to the list of input directories, and
-                              will also be applied to <source-dir>.
-
   /list                    :: do not copy anything, just list all files
 
   /log:FILENAME            :: write all output (log) to a textfile FILNAME.
