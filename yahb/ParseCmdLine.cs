@@ -197,15 +197,6 @@ namespace yahb
             Console.WriteLine("");
             Console.WriteLine("  /help                    :: display this help screen");
             Console.WriteLine("");
-            Console.WriteLine("  /id:FILENAME             :: supply a list of Input Directories to copy which");
-            Console.WriteLine("                              are stored line by line in a textfile FILENAME.");
-            Console.WriteLine("                              If this options is used, <source-dir> can be");
-            Console.WriteLine("                              omitted. If both <source-dir> and /id:FILENAME");
-            Console.WriteLine("                              are present, all directories will be copied.");
-            Console.WriteLine("                              NOTE that if /s is provided, it will be ");
-            Console.WriteLine("                              applied to the list of input directories, and");
-            Console.WriteLine("                              will also be applied to <source-dir>.");
-            Console.WriteLine("");
             Console.WriteLine("  /list                    :: do not copy anything, just list all files");
             Console.WriteLine("");
             Console.WriteLine("  /log:FILENAME            :: write all output (log) to a textfile FILNAME.");

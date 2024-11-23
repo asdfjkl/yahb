@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "YAHB"
-#define MyAppVersion "1.0.8.0"
+#define MyAppVersion "1.0.9.0"
 #define MyAppPublisher "asdfjkl"
 #define MyAppURL "https://github.com/asdfjkl/yahb"
 #define MyAppExeName "yahb.exe"

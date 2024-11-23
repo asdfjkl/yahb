@@ -70,8 +70,8 @@ namespace yahb
         public void checkConsistency()
         {
             // check if we have a valid source directory
-            if(!string.IsNullOrEmpty(this.sourceDirectory) || !System.IO.Directory.Exists(this.sourceDirectory))
-            {
+            if(string.IsNullOrEmpty(this.sourceDirectory) || !System.IO.Directory.Exists(this.sourceDirectory))
+            {   
                 throw new ArgumentException("error: no valid source directory defined or directory does not exist");
             }
             // create full path from relative path
