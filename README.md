@@ -168,3 +168,25 @@ OPTIONS
                               forth. PAT can also be a file pattern like *.tmp
 
   /?                       :: display this help screen
+
+
+In order to
+````
+
+## Scripting
+
+You can of course use `yahb` for batch operations or automation. If you want to manually backup, it can be helpful to create a `.bat` file, put 
+it e.g. on the desktop and then run a backup by just double clicking. Here is sample code for a file `backup.bat` that elevates the execution
+to run with administrator privileges, so that the `/vss` option can be used. Just adjust the directory names and destination path.
+
+````
+@echo off
+REM Check if running as administrator
+net session >nul 2>&1
+if %errorlevel% neq 0 (
+    echo Requesting administrator privileges...
+    powershell Start-Process "%~f0" -Verb RunAs
+    exit
+)
+echo Running as administrator!
+"C:\Program Files\yahb\yahb.exe" /src:"C:\Myfiles;C:\SomeOtherFiles" /dest:F: /r /vss /pause
