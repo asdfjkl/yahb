@@ -79,18 +79,19 @@ You can support the development of YAHB by donating via Paypal.
 Note: To use the option `/vss` you MUST run YAHB with elevated rights, i.e. from an elevated command prompt (`Run as Administrator`).
 
 ```
-YAHB (Yet Another Hardlink-based Backup-Tool)
-Version 1.0.7.0
-Copyright (c) 2019 - 2021 Dominik Klein
 
-     Syntax:: yahb.exe <source-dir> <target-dir> [<options>]
+YAHB (Yet Another Hardlink-based Backup-Tool)
+Version 1.1.0.0
+Copyright (c) 2019 - 2025 Dominik Klein
+
+     Syntax:: yahb.exe /src:<source-dir> /dest:<target-dir> [<options>]
 
  source-dir:: source directory (i.e. C:\MyFiles)
  target-dir:: target directory (i.e. D:\Backups)
 
 TYPICAL EXAMPLE:
 
- yahb c:\MyFiles d:\Backup /s /xf:*.tmp
+ yahb /src:c:\MyFiles /dest:d:\Backup /r /xf:*.tmp
 
 will copy all files and the directory structure from c:\MyFiles
 to d:\Backup\YYYYMMDDHHMM, including all subdirectories. Yahb will
@@ -100,6 +101,10 @@ Moreover, all files with ending .tmp will be skipped.
 
 OPTIONS
 
+  /src:DIR1;DIR2;...       :: copy source directories DIR1, DIR2, etc.
+                              surround directories with spaces by " and separate
+                              each directory by ;
+  /dest:DIR                :: destination directory
   /copyall                 :: copy ALL files. Otherwise the following directory
                               patterns and file types are excluded:
 
@@ -136,13 +141,13 @@ OPTIONS
                               after finishing if run e.g. by Windows' RUNAS
                               command
 
-  /s                       :: also copy all SUBDIRECTORIES of <source-dir>
+  /r                       :: also copy recursively all SUBDIRECTORIES of <source-dir>
 
   /tee                     :: even if /log:FILENAME or /+log:FILENAME is
                               chosen, still write everything additionally
                               to console output.
 
-  /verbose                 :: by default, only the progress and errors 
+  /verbose                 :: by default, only the progress and errors
                               are output to the console/log. In verbose
                               mode, all created files and directories
                               are listed - note that for large copy
