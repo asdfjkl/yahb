@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace yahb { 
+namespace yahb {
 
     enum ArgType
     {
@@ -14,8 +15,20 @@ namespace yahb {
     }
     class Program
     {
+
+        // Import the SetThreadExecutionState function from kernel32.dll
+        [DllImport("kernel32.dll")]
+        static extern uint SetThreadExecutionState(uint esFlags);
+
+        // Flags for SetThreadExecutionState
+        const uint ES_CONTINUOUS = 0x80000000;
+        const uint ES_SYSTEM_REQUIRED = 0x00000001;
+
         static void Main(string[] args)
         {
+            // prevent windows from sleeping
+            SetThreadExecutionState(ES_CONTINUOUS | ES_SYSTEM_REQUIRED);
+
             ParseCmdLine parse = new ParseCmdLine();
 
             Config cfg = new Config();
@@ -24,59 +37,28 @@ namespace yahb {
             {
                 // Create an array of all possible command-line parameters
                 // and how to parse them.
-                object[,] mySwitches = new object[2, 14] {
-                 {"s", "copyall" , "pause",
+                object[,] mySwitches = new object[2, 17] {
+                 {"src", "dest", "id", "r", "copyall" , "pause",
                         "xf", "xd", "list", "verbose",
                         "log", "+log", "tee", "?",
                         "files", "vss", "help"},
-                 {ArgType.SimpleSwitch, ArgType.SimpleSwitch, ArgType.SimpleSwitch,
+                 {ArgType.Complex, ArgType.Compound, ArgType.Compound, ArgType.SimpleSwitch, ArgType.SimpleSwitch, ArgType.SimpleSwitch,
                         ArgType.Complex, ArgType.Complex, ArgType.SimpleSwitch, ArgType.SimpleSwitch,
                         ArgType.Compound, ArgType.Compound, ArgType.SimpleSwitch, ArgType.SimpleSwitch,
                         ArgType.Complex, ArgType.SimpleSwitch, ArgType.SimpleSwitch}};
 
                 for (int counter = 0; counter < args.Length; counter++)
                 {
-                    if (counter == 0)
-                    {
-                        if (!args[counter].StartsWith("/"))
-                        {
-                            // should be the input directory. Check validity later
-                            cfg.sourceDirectory = args[counter];
-                        }
-                        else
-                        {
-                            // cannot be - we need a source directory
-                            // only exception: user requested /help or /?
-                            if (args[counter].Equals("/help") || args[counter].Equals("/?"))
-                            {
-                                // display help and exit
-                                parse.DisplayVerboseHelp();
-                                System.Environment.Exit(0);
-                            }
-                            else
-                            {
-                                throw (new ArgumentException(
-                                          "Cmd-Line parameter error: " + args[counter] +
-                                          " is a parameter, but a directory is expected.")
-                                    );
-                            }
-                        }
-                    }
 
-                    if (counter == 1)
+                    // if user requested help, show help immediately and exit
+                    if (args[counter].Equals("/help") || args[counter].Equals("/?"))
                     {
-                        if (!args[counter].StartsWith("/"))
-                        {
-                            cfg.destinationDirectory = args[counter];
-                        }
-                        else
-                        {
-                            // cannot be - we need a target directory
-                            throw (new ArgumentException(
-                                      "Cmd-Line parameter error: " + args[counter] +
-                                      " is a parameter, but a directory is expected.")
-                                );
-                        }
+                        // make sure that Windows can go to standby after program ends
+                        SetThreadExecutionState(ES_CONTINUOUS);
+                        // display help 
+                        parse.DisplayVerboseHelp();                        
+                        // and exit
+                        System.Environment.Exit(0);
                     }
 
                     if (args[counter].StartsWith("/"))
@@ -121,16 +103,23 @@ namespace yahb {
                                 // command-line parameter.
                                 switch ((string)mySwitches[0, index])
                                 {
-                                    case "s":
+                                    case "r":
                                         cfg.copySubDirectories = true;
                                         break;
 
                                     case "lev":
                                         cfg.maxLvel = System.Int32.Parse(theArgument);
                                         break;
-                                                                            
+
                                     case "vss":
                                         cfg.useVss = true;
+                                        break;
+
+                                    case "src":
+                                        foreach (string inputDir in theArguments)
+                                        {
+                                            cfg.inputDirectories.Add(inputDir);
+                                        }
                                         break;
 
                                     case "xf":
@@ -167,6 +156,10 @@ namespace yahb {
                                         cfg.overwriteLogFile = true;
                                         break;
 
+                                    case "dest":
+                                        cfg.destinationDirectory = theArgument;
+                                        break;
+
                                     case "+log":
                                         cfg.fnLogFile = theArgument;
                                         cfg.overwriteLogFile = false;
@@ -184,14 +177,6 @@ namespace yahb {
                                         cfg.copyAll = true;
                                         break;
 
-                                    case "?":
-                                        cfg.showHelp = true;
-                                        break;
-
-                                    case "help":
-                                        cfg.showHelp = true;
-                                        break;
-
                                     default:
                                         throw (new ArgumentException(
                                            "Cmd-Line parameter error: Switch " +
@@ -202,13 +187,6 @@ namespace yahb {
                         }
                     }
                 }
-                // first check if user requested help. if so, show help
-                // and immediately exit
-                if(cfg.showHelp)
-                {
-                    parse.DisplayVerboseHelp();
-                    return;
-                }
 
                 // check sanity of parsed configuration
                 // throws ArgumentException on inconsistencies
@@ -217,6 +195,8 @@ namespace yahb {
             catch (ArgumentException ae)
             {
                 parse.DisplayErrorMsg(ae.Message);
+                // make sure that Windows can go to standby after program ends
+                SetThreadExecutionState(ES_CONTINUOUS);
                 return;
             }            
 
@@ -236,6 +216,10 @@ namespace yahb {
                 Console.WriteLine("Press ENTER to exit.");
                 Console.ReadLine();
             }
+
+            // make sure that Windows can go to standby after program ends
+            SetThreadExecutionState(ES_CONTINUOUS);
+
 
         }
     }

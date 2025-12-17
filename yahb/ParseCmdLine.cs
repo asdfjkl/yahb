@@ -155,16 +155,16 @@ namespace yahb
             FileVersionInfo version =
                        Process.GetCurrentProcess().MainModule.FileVersionInfo;
             Console.WriteLine("Version " + version.FileVersion);
-            Console.WriteLine("Copyright (c) 2019 - 2024 Dominik Klein");
+            Console.WriteLine("Copyright (c) 2019 - 2025 Dominik Klein");
             Console.WriteLine("");
-            Console.WriteLine("     Syntax:: yahb.exe <source-dir> <target-dir> [<options>]");
+            Console.WriteLine("     Syntax:: yahb.exe /src:<source-dir> /dest:<target-dir> [<options>]");
             Console.WriteLine("");
             Console.WriteLine(" source-dir:: source directory (i.e. C:\\MyFiles)");
             Console.WriteLine(" target-dir:: target directory (i.e. D:\\Backups)");
             Console.WriteLine("");
             Console.WriteLine("TYPICAL EXAMPLE:");
             Console.WriteLine("");
-            Console.WriteLine(" yahb c:\\MyFiles d:\\Backup /s /xf:*.tmp");
+            Console.WriteLine(" yahb /src:c:\\MyFiles /dest:d:\\Backup /r /xf:*.tmp");
             Console.WriteLine("");
             Console.WriteLine("will copy all files and the directory structure from c:\\MyFiles");
             Console.WriteLine("to d:\\Backup\\YYYYMMDDHHMM, including all subdirectories. Yahb will");
@@ -175,6 +175,10 @@ namespace yahb
             Console.WriteLine("OPTIONS");
             Console.WriteLine("");
             //Console.WriteLine("--------------------------------------------------------------------------------");
+            Console.WriteLine("  /src:DIR1;DIR2;...       :: copy source directories DIR1, DIR2, etc.");
+            Console.WriteLine("                              surround directories with spaces by \" and separate");
+            Console.WriteLine("                              each directory by ;");
+            Console.WriteLine("  /dest:DIR                :: destination directory");
             Console.WriteLine("  /copyall                 :: copy ALL files. Otherwise the following directory");
             Console.WriteLine("                              patterns and file types are excluded:");
             Console.WriteLine("");
@@ -211,7 +215,7 @@ namespace yahb
             Console.WriteLine("                              after finishing if run e.g. by Windows' RUNAS");
             Console.WriteLine("                              command");
             Console.WriteLine("");
-            Console.WriteLine("  /s                       :: also copy all SUBDIRECTORIES of <source-dir>");
+            Console.WriteLine("  /r                       :: also copy recursively all SUBDIRECTORIES of <source-dir>");
             Console.WriteLine("");
             Console.WriteLine("  /tee                     :: even if /log:FILENAME or /+log:FILENAME is");
             Console.WriteLine("                              chosen, still write everything additionally");

@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "YAHB"
-#define MyAppVersion "1.0.9.0"
+#define MyAppVersion "1.1.0.0"
 #define MyAppPublisher "asdfjkl"
 #define MyAppURL "https://github.com/asdfjkl/yahb"
 #define MyAppExeName "yahb.exe"
@@ -39,10 +39,10 @@ AppUpdatesURL={#MyAppURL}
 DefaultDirName={autopf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
-LicenseFile=D:\MyFiles\workspace\yahb_release\gpl-3.0.txt
+LicenseFile=C:\MyFiles\workspace\yahb_release\gpl-3.0.txt
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
-OutputDir=D:\MyFiles\workspace\yahb_release\inno_output
+OutputDir=C:\MyFiles\workspace\yahb_release\inno_output
 OutputBaseFilename=yahb_setup
 Compression=lzma
 SolidCompression=yes
@@ -53,14 +53,14 @@ ChangesEnvironment=true
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
-Source: "D:\MyFiles\workspace\yahb_release\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\MyFiles\workspace\yahb_release\AlphaFS.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\MyFiles\workspace\yahb_release\AlphaFS.xml"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\MyFiles\workspace\yahb_release\AlphaVSS.Common.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\MyFiles\workspace\yahb_release\AlphaVSS.x64.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\MyFiles\workspace\yahb_release\AlphaVSS.x86.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\MyFiles\workspace\yahb_release\app.manifest"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\MyFiles\workspace\yahb_release\yahb.exe.config"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\MyFiles\workspace\yahb_release\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\MyFiles\workspace\yahb_release\AlphaFS.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\MyFiles\workspace\yahb_release\AlphaFS.xml"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\MyFiles\workspace\yahb_release\AlphaVSS.Common.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\MyFiles\workspace\yahb_release\AlphaVSS.x64.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\MyFiles\workspace\yahb_release\AlphaVSS.x86.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\MyFiles\workspace\yahb_release\app.manifest"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\MyFiles\workspace\yahb_release\yahb.exe.config"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

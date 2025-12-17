@@ -50,9 +50,9 @@ namespace yahb
             if (cfg.copySubDirectories)
             {
                 Stack<string> dir_stack = new Stack<string>(20);
-                if (!String.IsNullOrEmpty(cfg.sourceDirectory))
+                foreach(string absDir in cfg.absInputDirectories)
                 {
-                    dir_stack.Push(cfg.sourceDirectory);
+                    dir_stack.Push(absDir);
                 }
 
                 List<string> subdirs;
@@ -119,7 +119,10 @@ namespace yahb
                 }
             } else
             {
-                dirs.Add(cfg.sourceDirectory);
+                foreach (string absDir in cfg.absInputDirectories)
+                {
+                    dirs.Add(absDir);
+                }
             }
 
             // filter directories according to input given

@@ -7,10 +7,11 @@ namespace yahb
 {
     class Config
     {
-        public string sourceDirectory;
         public string destinationDirectory;
         public bool copySubDirectories;
         public int maxLvel;
+        public List<String> inputDirectories;
+        public List<String> absInputDirectories;
         public bool useVss;
         public List<String> filePatternsToIgnore;
         public List<String> directoriesToIgnore;
@@ -34,10 +35,11 @@ namespace yahb
         
         public Config()
         {
-            this.sourceDirectory = "";
             this.destinationDirectory = "";
             this.copySubDirectories = false;
             this.maxLvel = 2147483647; // max 32 int value, should be enough
+            this.inputDirectories = new List<String>();
+            this.absInputDirectories = new List<String>();
             this.useVss = false;
             this.filePatternsToIgnore = new List<String>();
             this.directoriesToIgnore = new List<String>();
@@ -69,19 +71,44 @@ namespace yahb
 
         public void checkConsistency()
         {
-            // check if we have a valid source directory
-            if(string.IsNullOrEmpty(this.sourceDirectory) || !System.IO.Directory.Exists(this.sourceDirectory))
-            {   
-                throw new ArgumentException("error: no valid source directory defined or directory does not exist");
+            // check if we have at least one input directory
+            bool hasInput = false;
+            
+            // check if the supplied list of input directories (if any) is valid
+            if(!(inputDirectories.Count == 0))
+            {
+                try
+                {
+                    foreach (string inDir in inputDirectories)
+                    {
+                        if (!System.IO.Directory.Exists(inDir))
+                        {
+                            throw new ArgumentException("error: " + inDir + " is not a valid directory");
+                        }
+                        // create full path from relative path
+                        String absLine = System.IO.Path.GetFullPath(inDir);
+                        this.absInputDirectories.Add(absLine);
+                    }
+                    hasInput = true;
+                }
+                catch (Exception e)
+                {
+                    throw new ArgumentException("Error: invalid input directory specified" + e.Message);
+                }
             }
-            // create full path from relative path
-            this.sourceDirectory = System.IO.Path.GetFullPath(this.sourceDirectory);
+
+            if (!hasInput)
+            {
+                throw new ArgumentException("error: no valid input directory defined");
+            }
 
             // check if we have a valid destination directory
-            if(string.IsNullOrEmpty(this.destinationDirectory) || !System.IO.Directory.Exists(this.destinationDirectory))  {
+            if (string.IsNullOrEmpty(this.destinationDirectory) || !System.IO.Directory.Exists(this.destinationDirectory))
+            {
                 throw new ArgumentException("error: no valid output directory defined or directory " +
                     "does not exist");
             }
+
             // create full path from relative path
             this.destinationDirectory = System.IO.Path.GetFullPath(this.destinationDirectory);
 
@@ -97,11 +124,12 @@ namespace yahb
             try
             {
                 System.IO.File.WriteAllText(fn_txt, "hardlink creation test");
-            } catch(Exception e)
+            }
+            catch (Exception e)
             {
                 throw new ArgumentException("error: unable to create hardlinks on destination: " + e.Message);
             }
-            if(!(CreateHardLink(fn_lnk, fn_txt, IntPtr.Zero)))
+            if (!(CreateHardLink(fn_lnk, fn_txt, IntPtr.Zero)))
             {
                 System.IO.File.Delete(fn_txt);
                 throw new ArgumentException("error: unable to create hardlinks on destination.");
@@ -116,12 +144,12 @@ namespace yahb
             }
 
             // check if we have a valid log-file path
-            if(!string.IsNullOrEmpty(this.fnLogFile))
+            if (!string.IsNullOrEmpty(this.fnLogFile))
             {
                 // try to write or append log file
                 // write time-stamp in header
                 string now = DateTime.Now.ToString("yyyy'_'MM'_'dd_HH'_'mm'_'ss'Z'");
-                if(this.overwriteLogFile)
+                if (this.overwriteLogFile)
                 {
                     try
                     {
@@ -143,7 +171,8 @@ namespace yahb
                         throw new ArgumentException("error: general exception writing to log file " + this.fnLogFile);
                     }
 
-                } else
+                }
+                else
                 {
                     try
                     {
@@ -164,9 +193,10 @@ namespace yahb
                         throw new ArgumentException("error: general exception appending to log file " + this.fnLogFile);
                     }
 
-                }           
+                }
             }
         }
+
 
 
         public void addToLog(string message)
@@ -236,7 +266,7 @@ namespace yahb
         public override string ToString()
         {
             string currentCfg = "";
-            currentCfg += "source dir...........: " + this.sourceDirectory + "\n";
+            currentCfg += "source dir(s)........: " + String.Join(", ", this.inputDirectories) + "\n";
             currentCfg += "destination dir......: " + this.destinationDirectory + "\n";
             currentCfg += "file endings.........: " + String.Join(", ", this.fileEndings) + "\n";
             currentCfg += "copy sub dirs........: " + this.copySubDirectories + "\n";
