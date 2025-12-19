@@ -170,7 +170,6 @@ OPTIONS
   /?                       :: display this help screen
 
 
-In order to
 ````
 
 ## Scripting
