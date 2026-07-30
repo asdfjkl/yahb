@@ -1,6 +1,7 @@
 # YAHB - Yet Another Hardlink-based Backup-tool
 
 YAHB is a deduplicating file copy tool, intended for backup use. Deduplication works on the file-level with NTFS [hardlinks](https://en.wikipedia.org/wiki/Hard_link).
+YAHB is a command-line tool. A GUI is available as [YAHBAckup](https://github.com/asdfjkl/YAHBackup)
 
 ## Download & Installation
 
@@ -189,7 +190,4 @@ if %errorlevel% neq 0 (
 )
 echo Running as administrator!
 "C:\Program Files\yahb\yahb.exe" /src:"C:\Myfiles;C:\SomeOtherFiles" /dest:F: /r /vss /pause
-
-## GUI
-
-Instead of the commandline version, you can also backup with a GUI using [YAHBAckup](https://github.com/asdfjkl/YAHBackup)
+````
